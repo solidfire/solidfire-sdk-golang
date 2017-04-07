@@ -7,11 +7,9 @@ import (
 	"errors"
 	log "github.com/Sirupsen/logrus"
 	"io/ioutil"
-	"math/rand"
 	"net/http"
 	"strconv"
 	"strings"
-	"time"
 )
 
 type Client struct {
@@ -22,6 +20,7 @@ type Client struct {
 	Timeout      int
 	Version      string
 	ApiUrl       string
+	Name         string
 }
 
 type Credentials struct {
@@ -38,16 +37,6 @@ type APIError struct {
 	} `json:"error"`
 }
 
-type APIResult struct {
-	Id     int                    `json:"id"`
-	Result map[string]interface{} `json:"result,omitempty"`
-	Error  struct {
-		Code    int    `json:"code"`
-		Message string `json:"message"`
-		Name    string `json:"name"`
-	} `json:"error,omitempty"`
-}
-
 var (
 	endpoint string
 	creds    Credentials
@@ -57,7 +46,40 @@ var (
 )
 
 func init() {
-	log.SetLevel(log.DebugLevel)
+
+}
+
+func Create(target string, username string, password string, version string, port int, timeoutSecs int) (c *Client, err error) {
+	client, err := NewFromOpts(target, username, password, ver, port, timeoutSecs)
+	if err != nil {
+		log.Errorf("Err: %v", err)
+		return nil, err
+	}
+
+	// set to current version
+	getApiResult, err := client.GetAPI()
+	if err != nil {
+		log.Errorf("Error retrieving Cluster version: %v", err)
+		return nil, err
+	}
+	client.Version = strconv.FormatFloat(getApiResult.CurrentVersion, 'f', 1, 64)
+
+	if client.Port == 443 {
+		getClusterInfoResult, err := client.GetClusterInfo()
+		if err != nil {
+			log.Errorf("Error retrieving Cluster name: %v", err)
+			return nil, err
+		}
+		client.Name = getClusterInfoResult.ClusterInfo.Name
+	} else if client.Port == 442 {
+		getConfigResult, err := client.GetConfig()
+		if err != nil {
+			log.Errorf("Error retrieving Node name: %v", err)
+			return nil, err
+		}
+		client.Name = getConfigResult.Config.Cluster.Name
+	}
+	return client, err
 }
 
 func NewFromOpts(target string, username string, password string, version string, port int, timeoutSecs int) (c *Client, err error) {
@@ -70,8 +92,6 @@ func NewFromOpts(target string, username string, password string, version string
 }
 
 func New() (c *Client, err error) {
-	rand.Seed(time.Now().UTC().UnixNano())
-
 	if endpoint == "" {
 		log.Error("Target is not set, unable to issue requests")
 		err = errors.New("Unable to issue json-rpc requests without specifying Target")
@@ -140,20 +160,18 @@ func (c *Client) SendRequest(method string, params interface{}) (response map[st
 	body, err := ioutil.ReadAll(resp.Body)
 	log.Debugf("Response: %+v", string(body))
 	if err != nil {
+		log.Errorf("Error reading response body: %v", err)
 		return nil, err
 	}
 
 	// decode the response into a map
 	r := bytes.NewReader(body)
 	var result map[string]interface{}
-	decErr := json.NewDecoder(r).Decode(&result)
-	if decErr != nil {
-		log.Error(decErr)
+	err = json.NewDecoder(r).Decode(&result)
+	if err != nil {
+		log.Errorf("Error decoding response into map: %v", err)
+		return nil, err
 	}
-	// log request/response as pretty json
-	//var prettyJson bytes.Buffer
-	//_ = json.Indent(&prettyJson, body, "", "  ")
-	//log.WithField("", prettyJson.String()).Debug("request:", c.RequestCount, " method:", method, " params:", params)
 
 	// check for errors
 	errresp := APIError{}
