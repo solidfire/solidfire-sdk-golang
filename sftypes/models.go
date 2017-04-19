@@ -62,9 +62,6 @@ type BulkVolumeJob struct {
 	Attributes      interface{} `json:"attributes"`
 }
 
-type CHAPSecret struct {
-}
-
 type CloneMultipleVolumeParams struct {
 	VolumeID     int64       `json:"volumeID"`
 	Access       string      `json:"access,omitempty"`
@@ -158,7 +155,6 @@ type ClusterInfo struct {
 	MvipNodeID            int64       `json:"mvipNodeID"`
 	Name                  string      `json:"name"`
 	RepCount              int64       `json:"repCount"`
-	State                 string      `json:"state,omitempty"`
 	Svip                  string      `json:"svip"`
 	SvipNodeID            int64       `json:"svipNodeID"`
 	UniqueID              string      `json:"uniqueID"`
@@ -234,10 +230,7 @@ type DriveConfigInfo struct {
 	Dev                  int64  `json:"dev"`
 	DevPath              string `json:"devPath"`
 	DriveType            string `json:"driveType"`
-	FsType               string `json:"fsType,omitempty"`
-	IsMounted            bool   `json:"isMounted,omitempty"`
 	Product              string `json:"product"`
-	MountPoint           string `json:"mountPoint,omitempty"`
 	Name                 string `json:"name"`
 	Path                 string `json:"path"`
 	PathLink             string `json:"pathLink"`
@@ -252,12 +245,6 @@ type DriveConfigInfo struct {
 	Uuid                 string `json:"uuid"`
 	Vendor               string `json:"vendor"`
 	Version              string `json:"version"`
-	NumBlockActual       int64  `json:"numBlockActual,omitempty"`
-	NumBlockExpected     int64  `json:"numBlockExpected,omitempty"`
-	NumSliceActual       int64  `json:"numSliceActual,omitempty"`
-	NumSliceExpected     int64  `json:"numSliceExpected,omitempty"`
-	NumTotalActual       int64  `json:"numTotalActual,omitempty"`
-	NumTotalExpected     int64  `json:"numTotalExpected,omitempty"`
 	SecurityAtMaximum    bool   `json:"securityAtMaximum"`
 	Serial               string `json:"serial"`
 	ScsiState            string `json:"scsiState"`
@@ -403,9 +390,6 @@ type FibreChannelSession struct {
 	VolumeAccessGroupID int64  `json:"volumeAccessGroupID,omitempty"`
 }
 
-type Frequency struct {
-}
-
 type GetIpmiInfoNodesResultObject struct {
 	IpmiInfo IpmiInfo `json:"ipmiInfo"`
 }
@@ -532,8 +516,6 @@ type Network struct {
 	Eth1    NetworkConfig `json:"eth1,omitempty"`
 	Eth2    NetworkConfig `json:"eth2,omitempty"`
 	Eth3    NetworkConfig `json:"eth3,omitempty"`
-	Eth4    NetworkConfig `json:"eth4,omitempty"`
-	Eth5    NetworkConfig `json:"eth5,omitempty"`
 	Lo      NetworkConfig `json:"lo,omitempty"`
 }
 
@@ -551,7 +533,6 @@ type NetworkConfig struct {
 	Bondmode             string          `json:"bond-mode,omitempty"`
 	Bondslaves           string          `json:"bond-slaves,omitempty"`
 	Bondupdelay          string          `json:"bond-updelay,omitempty"`
-	Broadcast            string          `json:"broadcast,omitempty"`
 	Dnsnameservers       string          `json:"dns-nameservers,omitempty"`
 	Dnssearch            string          `json:"dns-search,omitempty"`
 	Family               string          `json:"family,omitempty"`
@@ -585,7 +566,6 @@ type NetworkConfigParams struct {
 	Bondmode             string          `json:"bond-mode,omitempty"`
 	Bondslaves           string          `json:"bond-slaves,omitempty"`
 	Bondupdelay          string          `json:"bond-updelay,omitempty"`
-	Broadcast            string          `json:"broadcast,omitempty"`
 	Dnsnameservers       string          `json:"dns-nameservers,omitempty"`
 	Dnssearch            string          `json:"dns-search,omitempty"`
 	Family               string          `json:"family,omitempty"`
@@ -996,17 +976,13 @@ type VirtualNetworkAddress struct {
 }
 
 type VirtualVolumeBinding struct {
-	ProtocolEndpointID       string            `json:"protocolEndpointID"`
-	ProtocolEndpointInBandID string            `json:"protocolEndpointInBandID"`
-	ProtocolEndpointType     string            `json:"protocolEndpointType"`
-	VirtualVolumeBindingID   int64             `json:"virtualVolumeBindingID"`
-	VirtualVolumeHostID      string            `json:"virtualVolumeHostID"`
-	VirtualVolumeID          string            `json:"virtualVolumeID"`
-	VirtualVolumeSecondaryID string            `json:"virtualVolumeSecondaryID"`
-	VirtualVolume            VirtualVolumeInfo `json:"virtualVolume,omitempty"`
-	ProtocolEndpoint         string            `json:"protocolEndpoint,omitempty"`
-	VirtualVolumeHost        VirtualVolumeHost `json:"virtualVolumeHost,omitempty"`
-	Fault                    string            `json:"fault,omitempty"`
+	ProtocolEndpointID       string `json:"protocolEndpointID"`
+	ProtocolEndpointInBandID string `json:"protocolEndpointInBandID"`
+	ProtocolEndpointType     string `json:"protocolEndpointType"`
+	VirtualVolumeBindingID   int64  `json:"virtualVolumeBindingID"`
+	VirtualVolumeHostID      string `json:"virtualVolumeHostID"`
+	VirtualVolumeID          string `json:"virtualVolumeID"`
+	VirtualVolumeSecondaryID string `json:"virtualVolumeSecondaryID"`
 }
 
 type VirtualVolumeHost struct {
@@ -1032,6 +1008,41 @@ type VirtualVolumeInfo struct {
 	SnapshotInfo          Snapshot         `json:"snapshotInfo,omitempty"`
 	VolumeInfo            Volume           `json:"volumeInfo,omitempty"`
 	Descendants           []int64          `json:"descendants,omitempty"`
+}
+
+type VirtualVolumeStats struct {
+	AccountID            int64         `json:"accountID"`
+	ActualIOPS           int64         `json:"actualIOPS,omitempty"`
+	AsyncDelay           string        `json:"asyncDelay,omitempty"`
+	AverageIOPSize       int64         `json:"averageIOPSize,omitempty"`
+	BurstIOPSCredit      int64         `json:"burstIOPSCredit,omitempty"`
+	ClientQueueDepth     int64         `json:"clientQueueDepth,omitempty"`
+	DesiredMetadataHosts MetadataHosts `json:"desiredMetadataHosts,omitempty"`
+	LatencyUSec          int64         `json:"latencyUSec,omitempty"`
+	MetadataHosts        MetadataHosts `json:"metadataHosts,omitempty"`
+	NonZeroBlocks        int64         `json:"nonZeroBlocks"`
+	ReadBytes            int64         `json:"readBytes"`
+	ReadLatencyUSec      int64         `json:"readLatencyUSec,omitempty"`
+	ReadOps              int64         `json:"readOps"`
+	Throttle             float64       `json:"throttle,omitempty"`
+	Timestamp            string        `json:"timestamp"`
+	TotalLatencyUSec     int64         `json:"totalLatencyUSec,omitempty"`
+	UnalignedReads       int64         `json:"unalignedReads"`
+	UnalignedWrites      int64         `json:"unalignedWrites"`
+	VolumeAccessGroups   []int64       `json:"volumeAccessGroups"`
+	VolumeID             int64         `json:"volumeID"`
+	VolumeSize           int64         `json:"volumeSize"`
+	VolumeUtilization    float64       `json:"volumeUtilization,omitempty"`
+	WriteBytes           int64         `json:"writeBytes"`
+	WriteLatencyUSec     int64         `json:"writeLatencyUSec,omitempty"`
+	WriteOps             int64         `json:"writeOps"`
+	ZeroBlocks           int64         `json:"zeroBlocks"`
+	WriteBytesLastSample int64         `json:"writeBytesLastSample,omitempty"`
+	SamplePeriodMSec     int64         `json:"samplePeriodMSec,omitempty"`
+	ReadBytesLastSample  int64         `json:"readBytesLastSample,omitempty"`
+	ReadOpsLastSample    int64         `json:"readOpsLastSample,omitempty"`
+	WriteOpsLastSample   int64         `json:"writeOpsLastSample,omitempty"`
+	VirtualVolumeID      string        `json:"virtualVolumeID,omitempty"`
 }
 
 type VirtualVolumeTask struct {
@@ -1106,11 +1117,9 @@ type VolumeQOS struct {
 type VolumeStats struct {
 	AccountID            int64         `json:"accountID"`
 	ActualIOPS           int64         `json:"actualIOPS,omitempty"`
-	AsyncDelay           string        `json:"asyncDelay,omitempty"`
 	AverageIOPSize       int64         `json:"averageIOPSize,omitempty"`
 	BurstIOPSCredit      int64         `json:"burstIOPSCredit,omitempty"`
 	ClientQueueDepth     int64         `json:"clientQueueDepth,omitempty"`
-	DesiredMetadataHosts MetadataHosts `json:"desiredMetadataHosts,omitempty"`
 	LatencyUSec          int64         `json:"latencyUSec,omitempty"`
 	MetadataHosts        MetadataHosts `json:"metadataHosts,omitempty"`
 	NonZeroBlocks        int64         `json:"nonZeroBlocks"`
@@ -1135,5 +1144,4 @@ type VolumeStats struct {
 	ReadBytesLastSample  int64         `json:"readBytesLastSample,omitempty"`
 	ReadOpsLastSample    int64         `json:"readOpsLastSample,omitempty"`
 	WriteOpsLastSample   int64         `json:"writeOpsLastSample,omitempty"`
-	VirtualVolumeID      string        `json:"virtualVolumeID,omitempty"`
 }

@@ -143,6 +143,7 @@ type CreateStorageContainerRequest struct {
 	Name            string `json:"name"`
 	InitiatorSecret string `json:"initiatorSecret,omitempty"`
 	TargetSecret    string `json:"targetSecret,omitempty"`
+	AccountID       int64  `json:"accountID,omitempty"`
 }
 
 type CreateSupportBundleRequest struct {
@@ -167,7 +168,6 @@ type CreateVolumeRequest struct {
 	Enable512e bool        `json:"enable512e"`
 	Qos        QoS         `json:"qos,omitempty"`
 	Attributes interface{} `json:"attributes,omitempty"`
-	SliceCount int64       `json:"sliceCount,omitempty"`
 }
 
 type DeleteGroupSnapshotRequest struct {
@@ -265,11 +265,6 @@ type GetFeatureStatusRequest struct {
 
 type GetIpmiConfigRequest struct {
 	ChassisType string `json:"chassisType,omitempty"`
-	Force       bool   `json:"force"`
-}
-
-type GetIpmiInfoRequest struct {
-	Force bool `json:"force"`
 }
 
 type GetNodeHardwareInfoRequest struct {
@@ -280,16 +275,12 @@ type GetNodeStatsRequest struct {
 	NodeID int64 `json:"nodeID"`
 }
 
-type GetOriginRequest struct {
-	Force bool `json:"force"`
+type GetNvramInfoRequest struct {
+	Force bool `json:"force,omitempty"`
 }
 
 type GetScheduleRequest struct {
 	ScheduleID int64 `json:"scheduleID"`
-}
-
-type GetSnmpTrapInfoRequest struct {
-	Id int64 `json:"id,omitempty"`
 }
 
 type GetStorageContainerEfficiencyRequest struct {
@@ -318,8 +309,9 @@ type InvokeSFApiRequest struct {
 }
 
 type ListAccountsRequest struct {
-	StartAccountID int64 `json:"startAccountID,omitempty"`
-	Limit          int64 `json:"limit,omitempty"`
+	StartAccountID           int64 `json:"startAccountID,omitempty"`
+	Limit                    int64 `json:"limit,omitempty"`
+	IncludeStorageContainers bool  `json:"includeStorageContainers,omitempty"`
 }
 
 type ListActivePairedVolumesRequest struct {
@@ -328,23 +320,22 @@ type ListActivePairedVolumesRequest struct {
 }
 
 type ListActiveVolumesRequest struct {
-	StartVolumeID int64 `json:"startVolumeID,omitempty"`
-	Limit         int64 `json:"limit,omitempty"`
+	StartVolumeID         int64 `json:"startVolumeID,omitempty"`
+	Limit                 int64 `json:"limit,omitempty"`
+	IncludeVirtualVolumes bool  `json:"includeVirtualVolumes,omitempty"`
 }
 
 type ListAsyncResultsRequest struct {
 	AsyncResultTypes []string `json:"asyncResultTypes,omitempty"`
 }
 
-type ListClusterAdminsRequest struct {
-	ShowHidden bool `json:"showHidden,omitempty"`
+type ListClusterFaultsRequest struct {
+	BestPractices bool   `json:"bestPractices,omitempty"`
+	FaultTypes    string `json:"faultTypes,omitempty"`
 }
 
-type ListClusterFaultsRequest struct {
-	Exceptions    bool   `json:"exceptions,omitempty"`
-	BestPractices bool   `json:"bestPractices,omitempty"`
-	Update        bool   `json:"update,omitempty"`
-	FaultTypes    string `json:"faultTypes,omitempty"`
+type ListDeletedVolumesRequest struct {
+	IncludeVirtualVolumes bool `json:"includeVirtualVolumes,omitempty"`
 }
 
 type ListDriveHardwareRequest struct {
@@ -356,15 +347,14 @@ type ListDriveStatsRequest struct {
 }
 
 type ListEventsRequest struct {
-	MaxEvents      int64  `json:"maxEvents,omitempty"`
-	StartEventID   int64  `json:"startEventID,omitempty"`
-	EndEventID     int64  `json:"endEventID,omitempty"`
-	EventQueueType string `json:"eventQueueType,omitempty"`
+	MaxEvents    int64 `json:"maxEvents,omitempty"`
+	StartEventID int64 `json:"startEventID,omitempty"`
+	EndEventID   int64 `json:"endEventID,omitempty"`
 }
 
 type ListGroupSnapshotsRequest struct {
-	VolumeID        int64 `json:"volumeID,omitempty"`
-	GroupSnapshotID int64 `json:"groupSnapshotID,omitempty"`
+	Volumes         []int64 `json:"volumes,omitempty"`
+	GroupSnapshotID int64   `json:"groupSnapshotID,omitempty"`
 }
 
 type ListInitiatorsRequest struct {
@@ -378,7 +368,8 @@ type ListProtocolEndpointsRequest struct {
 }
 
 type ListSnapshotsRequest struct {
-	VolumeID int64 `json:"volumeID,omitempty"`
+	VolumeID   int64 `json:"volumeID,omitempty"`
+	SnapshotID int64 `json:"snapshotID,omitempty"`
 }
 
 type ListStorageContainersRequest struct {
@@ -413,8 +404,14 @@ type ListVirtualVolumesRequest struct {
 }
 
 type ListVolumeAccessGroupsRequest struct {
-	StartVolumeAccessGroupID int64 `json:"startVolumeAccessGroupID,omitempty"`
-	Limit                    int64 `json:"limit,omitempty"`
+	StartVolumeAccessGroupID int64   `json:"startVolumeAccessGroupID,omitempty"`
+	Limit                    int64   `json:"limit,omitempty"`
+	VolumeAccessGroups       []int64 `json:"volumeAccessGroups,omitempty"`
+}
+
+type ListVolumeStatsByAccountRequest struct {
+	Accounts              []int64 `json:"accounts,omitempty"`
+	IncludeVirtualVolumes bool    `json:"includeVirtualVolumes,omitempty"`
 }
 
 type ListVolumeStatsByVirtualVolumeRequest struct {
@@ -422,7 +419,12 @@ type ListVolumeStatsByVirtualVolumeRequest struct {
 }
 
 type ListVolumeStatsByVolumeAccessGroupRequest struct {
-	VolumeAccessGroups []int64 `json:"volumeAccessGroups,omitempty"`
+	VolumeAccessGroups    []int64 `json:"volumeAccessGroups,omitempty"`
+	IncludeVirtualVolumes bool    `json:"includeVirtualVolumes,omitempty"`
+}
+
+type ListVolumeStatsByVolumeRequest struct {
+	IncludeVirtualVolumes bool `json:"includeVirtualVolumes,omitempty"`
 }
 
 type ListVolumeStatsRequest struct {
@@ -430,18 +432,21 @@ type ListVolumeStatsRequest struct {
 }
 
 type ListVolumesForAccountRequest struct {
-	AccountID     int64 `json:"accountID"`
-	StartVolumeID int64 `json:"startVolumeID,omitempty"`
-	Limit         int64 `json:"limit,omitempty"`
+	AccountID             int64 `json:"accountID"`
+	StartVolumeID         int64 `json:"startVolumeID,omitempty"`
+	Limit                 int64 `json:"limit,omitempty"`
+	IncludeVirtualVolumes bool  `json:"includeVirtualVolumes,omitempty"`
 }
 
 type ListVolumesRequest struct {
-	StartVolumeID int64   `json:"startVolumeID,omitempty"`
-	Limit         int64   `json:"limit,omitempty"`
-	VolumeStatus  string  `json:"volumeStatus,omitempty"`
-	Accounts      []int64 `json:"accounts,omitempty"`
-	IsPaired      bool    `json:"isPaired,omitempty"`
-	VolumeIDs     []int64 `json:"volumeIDs,omitempty"`
+	StartVolumeID         int64   `json:"startVolumeID,omitempty"`
+	Limit                 int64   `json:"limit,omitempty"`
+	VolumeStatus          string  `json:"volumeStatus,omitempty"`
+	Accounts              []int64 `json:"accounts,omitempty"`
+	IsPaired              bool    `json:"isPaired,omitempty"`
+	VolumeIDs             []int64 `json:"volumeIDs,omitempty"`
+	VolumeName            string  `json:"volumeName,omitempty"`
+	IncludeVirtualVolumes bool    `json:"includeVirtualVolumes,omitempty"`
 }
 
 type ModifyAccountRequest struct {
@@ -751,11 +756,12 @@ type TestLdapAuthenticationRequest struct {
 }
 
 type TestPingRequest struct {
-	Attempts        int64  `json:"attempts,omitempty"`
-	Hosts           string `json:"hosts,omitempty"`
-	TotalTimeoutSec int64  `json:"totalTimeoutSec,omitempty"`
-	PacketSize      int64  `json:"packetSize,omitempty"`
-	PingTimeoutMsec int64  `json:"pingTimeoutMsec,omitempty"`
+	Attempts              int64  `json:"attempts,omitempty"`
+	Hosts                 string `json:"hosts,omitempty"`
+	TotalTimeoutSec       int64  `json:"totalTimeoutSec,omitempty"`
+	PacketSize            int64  `json:"packetSize,omitempty"`
+	PingTimeoutMsec       int64  `json:"pingTimeoutMsec,omitempty"`
+	ProhibitFragmentation bool   `json:"prohibitFragmentation,omitempty"`
 }
 
 type UpdateBulkVolumeStatusRequest struct {

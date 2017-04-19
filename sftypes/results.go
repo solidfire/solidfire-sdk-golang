@@ -30,15 +30,6 @@ type AsyncHandleResult struct {
 	AsyncHandle int64 `json:"asyncHandle"`
 }
 
-type CancelCloneResult struct {
-}
-
-type CancelGroupCloneResult struct {
-}
-
-type ClearClusterFaultsResult struct {
-}
-
 type CloneMultipleVolumesResult struct {
 	AsyncHandle  int64                    `json:"asyncHandle"`
 	GroupCloneID int64                    `json:"groupCloneID"`
@@ -56,9 +47,6 @@ type CompleteClusterPairingResult struct {
 	ClusterPairID int64 `json:"clusterPairID"`
 }
 
-type CompleteVolumePairingResult struct {
-}
-
 type CopyVolumeResult struct {
 	CloneID     int64 `json:"cloneID"`
 	AsyncHandle int64 `json:"asyncHandle"`
@@ -66,9 +54,6 @@ type CopyVolumeResult struct {
 
 type CreateBackupTargetResult struct {
 	BackupTargetID int64 `json:"backupTargetID"`
-}
-
-type CreateClusterResult struct {
 }
 
 type CreateGroupSnapshotResult struct {
@@ -118,49 +103,12 @@ type DeleteAllSupportBundlesResult struct {
 	Result   string      `json:"result"`
 }
 
-type DeleteGroupSnapshotResult struct {
-}
-
-type DeleteInitiatorsResult struct {
-}
-
-type DeleteSnapshotResult struct {
-}
-
-type DeleteStorageContainerResult struct {
-}
-
-type DeleteVolumeAccessGroupResult struct {
-}
-
 type DeleteVolumeResult struct {
 	Volume Volume `json:"volume,omitempty"`
 }
 
 type DeleteVolumesResult struct {
-	Volumes []Volume  `json:"volumes"`
-	Curve   VolumeQOS `json:"curve,omitempty"`
-}
-
-type DisableEncryptionAtRestResult struct {
-}
-
-type DisableLdapAuthenticationResult struct {
-}
-
-type DisableSnmpResult struct {
-}
-
-type EnableEncryptionAtRestResult struct {
-}
-
-type EnableFeatureResult struct {
-}
-
-type EnableLdapAuthenticationResult struct {
-}
-
-type EnableSnmpResult struct {
+	Volumes []Volume `json:"volumes"`
 }
 
 type FibreChannelPortInfoResult struct {
@@ -547,8 +495,7 @@ type ListNetworkInterfacesResult struct {
 }
 
 type ListNodeFibreChannelPortInfoResult struct {
-	Nodes             []NodeFibreChannelPortInfoResult `json:"nodes,omitempty"`
-	FibreChannelPorts []FibreChannelPortInfo           `json:"fibreChannelPorts"`
+	FibreChannelPorts []FibreChannelPortInfo `json:"fibreChannelPorts"`
 }
 
 type ListNodeStatsResult struct {
@@ -626,7 +573,7 @@ type ListVolumeStatsByAccountResult struct {
 }
 
 type ListVolumeStatsByVirtualVolumeResult struct {
-	VolumeStats []VolumeStats `json:"volumeStats"`
+	VolumeStats []VirtualVolumeStats `json:"volumeStats"`
 }
 
 type ListVolumeStatsByVolumeAccessGroupResult struct {
@@ -651,12 +598,6 @@ type ListVolumesResult struct {
 
 type ModifyAccountResult struct {
 	Account Account `json:"account"`
-}
-
-type ModifyBackupTargetResult struct {
-}
-
-type ModifyClusterAdminResult struct {
 }
 
 type ModifyClusterFullThresholdResult struct {
@@ -688,7 +629,7 @@ type ModifyInitiatorsResult struct {
 }
 
 type ModifyScheduleResult struct {
-	Schedule Schedule `json:"schedule"`
+	Schedule Schedule `json:"schedule,omitempty"`
 }
 
 type ModifySnapshotResult struct {
@@ -707,54 +648,18 @@ type ModifyVolumeAccessGroupResult struct {
 	VolumeAccessGroup VolumeAccessGroup `json:"volumeAccessGroup"`
 }
 
-type ModifyVolumePairResult struct {
-}
-
 type ModifyVolumeResult struct {
 	Volume Volume `json:"volume,omitempty"`
-	Curve  QoS    `json:"curve,omitempty"`
 }
 
 type ModifyVolumesResult struct {
-	Qos     QoS      `json:"qos,omitempty"`
 	Volumes []Volume `json:"volumes"`
-}
-
-type NodeFibreChannelPortInfoResult struct {
-	NodeID int64                `json:"nodeID"`
-	Result FibreChannelPortList `json:"result"`
+	Qos     QoS      `json:"qos,omitempty"`
 }
 
 type NodeStateResult struct {
 	NodeID int64         `json:"nodeID"`
 	Result NodeStateInfo `json:"result,omitempty"`
-}
-
-type PurgeDeletedVolumeResult struct {
-}
-
-type PurgeDeletedVolumesResult struct {
-}
-
-type RemoveAccountResult struct {
-}
-
-type RemoveBackupTargetResult struct {
-}
-
-type RemoveClusterAdminResult struct {
-}
-
-type RemoveClusterPairResult struct {
-}
-
-type RemoveNodesResult struct {
-}
-
-type RemoveVirtualNetworkResult struct {
-}
-
-type RemoveVolumePairResult struct {
 }
 
 type ResetDrivesResult struct {
@@ -766,9 +671,6 @@ type ResetNodeResult struct {
 	Duration string           `json:"duration,omitempty"`
 	Result   string           `json:"result,omitempty"`
 	RtfiInfo RtfiInfo         `json:"rtfiInfo,omitempty"`
-}
-
-type RestoreDeletedVolumeResult struct {
 }
 
 type RollbackToGroupSnapshotResult struct {
@@ -797,26 +699,8 @@ type SetDefaultQoSResult struct {
 	BurstIOPS int64 `json:"burstIOPS"`
 }
 
-type SetLoginSessionInfoResult struct {
-}
-
 type SetNetworkConfigResult struct {
 	Network Network `json:"network"`
-}
-
-type SetNtpInfoResult struct {
-}
-
-type SetRemoteLoggingHostsResult struct {
-}
-
-type SetSnmpACLResult struct {
-}
-
-type SetSnmpInfoResult struct {
-}
-
-type SetSnmpTrapInfoResult struct {
 }
 
 type ShutdownResult struct {

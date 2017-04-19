@@ -1,9 +1,9 @@
 package test
 
 import (
+	log "github.com/Sirupsen/logrus"
 	"github.com/solidfire/solidfire-sdk-golang/sfapi"
 	"github.com/stretchr/testify/assert"
-	log "github.com/Sirupsen/logrus"
 	"testing"
 )
 

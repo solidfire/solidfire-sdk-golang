@@ -177,7 +177,7 @@ func (c *Client) SendRequest(method string, params interface{}) (response map[st
 	errresp := APIError{}
 	json.Unmarshal([]byte(body), &errresp)
 	if errresp.Error.Code != 0 {
-		err = errors.New("Received error response from API request")
+		err = errors.New("Received error response from API request: " + *&errresp.Error.Message)
 		return nil, err
 	}
 
