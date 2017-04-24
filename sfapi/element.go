@@ -3,6 +3,7 @@ package sfapi
 import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/solidfire/solidfire-sdk-golang/sftypes"
+	"github.com/ottemo/mapstructure"
 )
 
 func (c *Client) AddAccount(request sftypes.AddAccountRequest) (*sftypes.AddAccountResult, error) {
@@ -476,7 +477,7 @@ func (c *Client) GetAccountByID(request sftypes.GetAccountByIDRequest) (*sftypes
 		return nil, err
 	}
 	var result sftypes.GetAccountResult
-	decoder, err := GetDecoder(&result)
+	decoder, err := mapstructure.NewDecoder(sftypes.GetAccountResultDecodeHookConfig(&result))
 	if err != nil {
 		log.Errorf("Err: %v", err)
 		return nil, err
@@ -497,7 +498,7 @@ func (c *Client) GetAccountByName(request sftypes.GetAccountByNameRequest) (*sft
 		return nil, err
 	}
 	var result sftypes.GetAccountResult
-	decoder, err := GetDecoder(&result)
+	decoder, err := mapstructure.NewDecoder(sftypes.GetAccountResultDecodeHookConfig(&result))
 	if err != nil {
 		log.Errorf("Err: %v", err)
 		return nil, err
@@ -1055,7 +1056,7 @@ func (c *Client) ListAccounts(request sftypes.ListAccountsRequest) (*sftypes.Lis
 		return nil, err
 	}
 	var result sftypes.ListAccountsResult
-	decoder, err := GetDecoder(&result)
+	decoder, err := mapstructure.NewDecoder(sftypes.ListAccountsResultDecodeHookConfig(&result))
 	if err != nil {
 		log.Errorf("Err: %v", err)
 		return nil, err
