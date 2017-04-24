@@ -12,7 +12,7 @@ type CHAPSecret struct {
 func CHAPSecretDecodeHook(from reflect.Kind, to reflect.Kind, v interface{}) (interface{}, error) {
 
 	if from == reflect.String && to == reflect.TypeOf(CHAPSecret{}).Kind() {
-		return  map[string]string{"Secret" : v.(string)}, nil
+		return map[string]string{"Secret": v.(string)}, nil
 	}
 
 	return v, nil

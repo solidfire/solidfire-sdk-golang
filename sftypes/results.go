@@ -1,33 +1,27 @@
 package sftypes
 
 type AddAccountResult struct {
-	AccountID int64   `json:"accountID"`
-	Account   Account `json:"account,omitempty"`
+	AccountID int64 `json:"accountID"`
 }
 
 type AddClusterAdminResult struct {
 	ClusterAdminID int64 `json:"clusterAdminID"`
 }
 
-type AddDrivesResult struct {
-	AsyncHandle int64 `json:"asyncHandle,omitempty"`
-}
-
-type AddLdapClusterAdminResult struct {
-	ClusterAdminID int64 `json:"clusterAdminID,omitempty"`
-}
-
 type AddNodesResult struct {
-	AutoInstall bool        `json:"autoInstall,omitempty"`
-	Nodes       []AddedNode `json:"nodes"`
+	Nodes []AddedNode `json:"nodes"`
 }
 
 type AddVirtualNetworkResult struct {
-	VirtualNetworkID int64 `json:"virtualNetworkID,omitempty"`
+	VirtualNetworkID int64 `json:"virtualNetworkID"`
 }
 
 type AsyncHandleResult struct {
 	AsyncHandle int64 `json:"asyncHandle"`
+}
+
+type AsyncResult struct {
+	Message string `json:"message"`
 }
 
 type CloneMultipleVolumesResult struct {
@@ -37,19 +31,13 @@ type CloneMultipleVolumesResult struct {
 }
 
 type CloneVolumeResult struct {
-	Volume      Volume `json:"volume,omitempty"`
-	CloneID     int64  `json:"cloneID"`
-	VolumeID    int64  `json:"volumeID"`
-	AsyncHandle int64  `json:"asyncHandle"`
+	CloneID     int64 `json:"cloneID"`
+	VolumeID    int64 `json:"volumeID"`
+	AsyncHandle int64 `json:"asyncHandle"`
 }
 
 type CompleteClusterPairingResult struct {
 	ClusterPairID int64 `json:"clusterPairID"`
-}
-
-type CopyVolumeResult struct {
-	CloneID     int64 `json:"cloneID"`
-	AsyncHandle int64 `json:"asyncHandle"`
 }
 
 type CreateBackupTargetResult struct {
@@ -57,13 +45,8 @@ type CreateBackupTargetResult struct {
 }
 
 type CreateGroupSnapshotResult struct {
-	GroupSnapshot   GroupSnapshot          `json:"groupSnapshot"`
 	GroupSnapshotID int64                  `json:"groupSnapshotID"`
 	Members         []GroupSnapshotMembers `json:"members"`
-}
-
-type CreateInitiatorsResult struct {
-	Initiators []Initiator `json:"initiators"`
 }
 
 type CreateScheduleResult struct {
@@ -71,44 +54,17 @@ type CreateScheduleResult struct {
 }
 
 type CreateSnapshotResult struct {
-	Snapshot   Snapshot `json:"snapshot"`
-	SnapshotID int64    `json:"snapshotID"`
-	Checksum   string   `json:"checksum"`
-}
-
-type CreateStorageContainerResult struct {
-	StorageContainer StorageContainer `json:"storageContainer"`
-}
-
-type CreateSupportBundleResult struct {
-	Details  SupportBundleDetails `json:"details"`
-	Duration string               `json:"duration"`
-	Result   string               `json:"result"`
+	SnapshotID int64  `json:"snapshotID"`
+	Checksum   string `json:"checksum"`
 }
 
 type CreateVolumeAccessGroupResult struct {
-	VolumeAccessGroupID int64             `json:"volumeAccessGroupID"`
-	VolumeAccessGroup   VolumeAccessGroup `json:"volumeAccessGroup,omitempty"`
+	VolumeAccessGroupID int64 `json:"volumeAccessGroupID"`
 }
 
 type CreateVolumeResult struct {
-	Volume   Volume `json:"volume,omitempty"`
-	VolumeID int64  `json:"volumeID"`
-	Curve    int64  `json:"curve"`
-}
-
-type DeleteAllSupportBundlesResult struct {
-	Duration string      `json:"duration"`
-	Details  interface{} `json:"details"`
-	Result   string      `json:"result"`
-}
-
-type DeleteVolumeResult struct {
-	Volume Volume `json:"volume,omitempty"`
-}
-
-type DeleteVolumesResult struct {
-	Volumes []Volume `json:"volumes"`
+	VolumeID int64 `json:"volumeID"`
+	Curve    int64 `json:"curve"`
 }
 
 type FibreChannelPortInfoResult struct {
@@ -116,23 +72,21 @@ type FibreChannelPortInfoResult struct {
 }
 
 type GetAPIResult struct {
-	SupportedVersions []float64 `json:"supportedVersions"`
 	CurrentVersion    float64   `json:"currentVersion"`
+	SupportedVersions []float64 `json:"supportedVersions"`
 }
 
 type GetAccountResult struct {
 	Account Account `json:"account"`
 }
 
-type GetBackupTargetResult struct {
-	BackupTarget BackupTarget `json:"backupTarget"`
+type GetAsyncResultResult struct {
+	Result AsyncResult `json:"result"`
+	Status string      `json:"status"`
 }
 
-type GetBootstrapConfigResult struct {
-	ClusterName string              `json:"clusterName"`
-	NodeName    string              `json:"nodeName"`
-	Nodes       []NodeWaitingToJoin `json:"nodes"`
-	Version     string              `json:"version"`
+type GetBackupTargetResult struct {
+	BackupTarget BackupTarget `json:"backupTarget"`
 }
 
 type GetClusterCapacityResult struct {
@@ -163,22 +117,8 @@ type GetClusterFullThresholdResult struct {
 	SumUsedMetadataClusterBytes    int64  `json:"sumUsedMetadataClusterBytes"`
 }
 
-type GetClusterHardwareInfoResult struct {
-	ClusterHardwareInfo ClusterHardwareInfo `json:"clusterHardwareInfo"`
-}
-
 type GetClusterInfoResult struct {
 	ClusterInfo ClusterInfo `json:"clusterInfo"`
-}
-
-type GetClusterMasterNodeIDResult struct {
-	NodeID int64 `json:"nodeID"`
-}
-
-type GetClusterStateResult struct {
-	Nodes   []NodeStateResult `json:"nodes,omitempty"`
-	Cluster string            `json:"cluster,omitempty"`
-	State   string            `json:"state,omitempty"`
 }
 
 type GetClusterStatsResult struct {
@@ -200,10 +140,6 @@ type GetCurrentClusterAdminResult struct {
 	ClusterAdmin ClusterAdmin `json:"clusterAdmin"`
 }
 
-type GetDriveConfigResult struct {
-	DriveConfig DrivesConfigInfo `json:"driveConfig"`
-}
-
 type GetDriveHardwareInfoResult struct {
 	DriveHardwareInfo DriveHardwareInfo `json:"driveHardwareInfo"`
 }
@@ -213,41 +149,11 @@ type GetDriveStatsResult struct {
 }
 
 type GetEfficiencyResult struct {
-	Compression      float64 `json:"compression,omitempty"`
-	Deduplication    float64 `json:"deduplication,omitempty"`
-	ThinProvisioning float64 `json:"thinProvisioning,omitempty"`
+	Compression      float64 `json:"compression"`
+	Deduplication    float64 `json:"deduplication"`
+	ThinProvisioning float64 `json:"thinProvisioning"`
 	Timestamp        string  `json:"timestamp"`
 	MissingVolumes   []int64 `json:"missingVolumes"`
-}
-
-type GetFeatureStatusResult struct {
-	Features []FeatureObject `json:"features"`
-}
-
-type GetHardwareConfigResult struct {
-	HardwareConfig interface{} `json:"hardwareConfig"`
-}
-
-type GetHardwareInfoResult struct {
-	HardwareInfo interface{} `json:"hardwareInfo"`
-}
-
-type GetIpmiConfigNodesResult struct {
-	NodeID int64       `json:"nodeID"`
-	Result interface{} `json:"result"`
-}
-
-type GetIpmiConfigResult struct {
-	Nodes []GetIpmiConfigNodesResult `json:"nodes"`
-}
-
-type GetIpmiInfoNodesResult struct {
-	NodeID int64                        `json:"nodeID"`
-	Result GetIpmiInfoNodesResultObject `json:"result"`
-}
-
-type GetIpmiInfoResult struct {
-	Nodes []GetIpmiInfoNodesResult `json:"nodes"`
 }
 
 type GetLdapConfigurationResult struct {
@@ -263,9 +169,7 @@ type GetLimitsResult struct {
 	CloneJobsPerVolumeMax                  int64 `json:"cloneJobsPerVolumeMax"`
 	ClusterPairsCountMax                   int64 `json:"clusterPairsCountMax"`
 	InitiatorNameLengthMax                 int64 `json:"initiatorNameLengthMax"`
-	InitiatorCountMax                      int64 `json:"initiatorCountMax"`
 	InitiatorsPerVolumeAccessGroupCountMax int64 `json:"initiatorsPerVolumeAccessGroupCountMax"`
-	IscsiSessionsFromFibreChannelNodesMax  int64 `json:"iscsiSessionsFromFibreChannelNodesMax"`
 	SecretLengthMax                        int64 `json:"secretLengthMax"`
 	SecretLengthMin                        int64 `json:"secretLengthMin"`
 	SnapshotNameLengthMax                  int64 `json:"snapshotNameLengthMax"`
@@ -276,7 +180,6 @@ type GetLimitsResult struct {
 	VolumeAccessGroupNameLengthMin         int64 `json:"volumeAccessGroupNameLengthMin"`
 	VolumeAccessGroupsPerInitiatorCountMax int64 `json:"volumeAccessGroupsPerInitiatorCountMax"`
 	VolumeAccessGroupsPerVolumeCountMax    int64 `json:"volumeAccessGroupsPerVolumeCountMax"`
-	InitiatorAliasLengthMax                int64 `json:"initiatorAliasLengthMax"`
 	VolumeBurstIOPSMax                     int64 `json:"volumeBurstIOPSMax"`
 	VolumeBurstIOPSMin                     int64 `json:"volumeBurstIOPSMin"`
 	VolumeCountMax                         int64 `json:"volumeCountMax"`
@@ -291,51 +194,14 @@ type GetLimitsResult struct {
 	VolumesPerAccountCountMax              int64 `json:"volumesPerAccountCountMax"`
 	VolumesPerGroupSnapshotMax             int64 `json:"volumesPerGroupSnapshotMax"`
 	VolumesPerVolumeAccessGroupCountMax    int64 `json:"volumesPerVolumeAccessGroupCountMax"`
-	ClusterAdminAccountMax                 int64 `json:"clusterAdminAccountMax,omitempty"`
-	FibreChannelVolumeAccessMax            int64 `json:"fibreChannelVolumeAccessMax,omitempty"`
-	VirtualVolumesPerAccountCountMax       int64 `json:"virtualVolumesPerAccountCountMax,omitempty"`
-	VirtualVolumeCountMax                  int64 `json:"virtualVolumeCountMax,omitempty"`
-}
-
-type GetLoginSessionInfoResult struct {
-	LoginSessionInfo LoginSessionInfo `json:"loginSessionInfo"`
 }
 
 type GetNetworkConfigResult struct {
 	Network Network `json:"network"`
 }
 
-type GetNodeHardwareInfoResult struct {
-	NodeHardwareInfo interface{} `json:"nodeHardwareInfo"`
-}
-
 type GetNodeStatsResult struct {
 	NodeStats NodeStatsInfo `json:"nodeStats"`
-}
-
-type GetNtpInfoResult struct {
-	Broadcastclient bool     `json:"broadcastclient"`
-	Servers         []string `json:"servers"`
-}
-
-type GetNvramInfoResult struct {
-	NvramInfo interface{} `json:"nvramInfo"`
-}
-
-type GetOriginNodeResult struct {
-	Origin Origin `json:"origin,omitempty"`
-}
-
-type GetOriginResult struct {
-	Nodes []GetOriginNode `json:"nodes"`
-}
-
-type GetPendingOperationResult struct {
-	PendingOperation PendingOperation `json:"pendingOperation"`
-}
-
-type GetRemoteLoggingHostsResult struct {
-	RemoteHosts []LoggingServer `json:"remoteHosts"`
 }
 
 type GetScheduleResult struct {
@@ -343,15 +209,15 @@ type GetScheduleResult struct {
 }
 
 type GetSnmpACLResult struct {
-	Networks []SnmpNetwork   `json:"networks,omitempty"`
-	UsmUsers []SnmpV3UsmUser `json:"usmUsers,omitempty"`
+	Networks []SnmpNetwork   `json:"networks"`
+	UsmUsers []SnmpV3UsmUser `json:"usmUsers"`
 }
 
 type GetSnmpInfoResult struct {
-	Networks      []SnmpNetwork   `json:"networks,omitempty"`
+	Networks      []SnmpNetwork   `json:"networks"`
 	Enabled       bool            `json:"enabled"`
 	SnmpV3Enabled bool            `json:"snmpV3Enabled"`
-	UsmUsers      []SnmpV3UsmUser `json:"usmUsers,omitempty"`
+	UsmUsers      []SnmpV3UsmUser `json:"usmUsers"`
 }
 
 type GetSnmpStateResult struct {
@@ -366,32 +232,12 @@ type GetSnmpTrapInfoResult struct {
 	ClusterEventTrapsEnabled         bool                `json:"clusterEventTrapsEnabled"`
 }
 
-type GetStorageContainerEfficiencyResult struct {
-	Compression      float64 `json:"compression"`
-	Deduplication    float64 `json:"deduplication"`
-	MissingVolumes   []int64 `json:"missingVolumes"`
-	ThinProvisioning float64 `json:"thinProvisioning"`
-	Timestamp        string  `json:"timestamp"`
-}
-
-type GetSystemStatusResult struct {
-	RebootRequired bool `json:"rebootRequired"`
-}
-
-type GetVirtualVolumeCountResult struct {
-	Count int64 `json:"count"`
-}
-
 type GetVolumeAccessGroupLunAssignmentsResult struct {
 	VolumeAccessGroupLunAssignments VolumeAccessGroupLunAssignments `json:"volumeAccessGroupLunAssignments"`
 }
 
-type GetVolumeCountResult struct {
-	Count int64 `json:"count"`
-}
-
 type GetVolumeEfficiencyResult struct {
-	Compression      float64 `json:"compression,omitempty"`
+	Compression      float64 `json:"compression"`
 	Deduplication    float64 `json:"deduplication"`
 	MissingVolumes   []int64 `json:"missingVolumes"`
 	ThinProvisioning float64 `json:"thinProvisioning"`
@@ -419,13 +265,8 @@ type ListActiveVolumesResult struct {
 }
 
 type ListAllNodesResult struct {
-	Nodes              []Node              `json:"nodes"`
-	PendingNodes       []PendingNode       `json:"pendingNodes"`
-	PendingActiveNodes []PendingActiveNode `json:"pendingActiveNodes,omitempty"`
-}
-
-type ListAsyncResultsResult struct {
-	AsyncHandles []AsyncHandle `json:"asyncHandles"`
+	Nodes        []Node        `json:"nodes"`
+	PendingNodes []PendingNode `json:"pendingNodes"`
 }
 
 type ListBackupTargetsResult struct {
@@ -456,11 +297,6 @@ type ListDriveHardwareResult struct {
 	Nodes []NodeDriveHardware `json:"nodes"`
 }
 
-type ListDriveStatsResult struct {
-	DriveStats []DriveStats  `json:"driveStats"`
-	Errors     []interface{} `json:"errors"`
-}
-
 type ListDrivesResult struct {
 	Drives []DriveInfo `json:"drives"`
 }
@@ -486,94 +322,44 @@ type ListISCSISessionsResult struct {
 	Sessions []ISCSISession `json:"sessions"`
 }
 
-type ListInitiatorsResult struct {
-	Initiators []Initiator `json:"initiators"`
-}
-
-type ListNetworkInterfacesResult struct {
-	Interfaces []NetworkInterface `json:"interfaces"`
-}
-
 type ListNodeFibreChannelPortInfoResult struct {
-	FibreChannelPorts []FibreChannelPortInfo `json:"fibreChannelPorts"`
+	Nodes []NodeFibreChannelPortInfoResult `json:"nodes"`
 }
 
 type ListNodeStatsResult struct {
 	NodeStats NodeStatsNodes `json:"nodeStats"`
 }
 
-type ListPendingActiveNodesResult struct {
-	PendingActiveNodes []PendingActiveNode `json:"pendingActiveNodes"`
-}
-
 type ListPendingNodesResult struct {
 	PendingNodes []PendingNode `json:"pendingNodes"`
-}
-
-type ListProtocolEndpointsResult struct {
-	ProtocolEndpoints []ProtocolEndpoint `json:"protocolEndpoints"`
 }
 
 type ListSchedulesResult struct {
 	Schedules []Schedule `json:"schedules"`
 }
 
-type ListServicesResult struct {
-	Services []DetailedService `json:"services"`
-}
-
 type ListSnapshotsResult struct {
 	Snapshots []Snapshot `json:"snapshots"`
 }
 
-type ListStorageContainersResult struct {
-	StorageContainers []StorageContainer `json:"storageContainers"`
-}
-
-type ListSyncJobsResult struct {
-	SyncJobs []SyncJob `json:"syncJobs"`
-}
-
 type ListTestsResult struct {
-	Tests interface{} `json:"tests"`
+	Tests []string `json:"tests"`
 }
 
 type ListUtilitiesResult struct {
-	Utilities interface{} `json:"utilities"`
+	Utilities []string `json:"utilities"`
 }
 
 type ListVirtualNetworksResult struct {
 	VirtualNetworks []VirtualNetwork `json:"virtualNetworks"`
 }
 
-type ListVirtualVolumeBindingsResult struct {
-	Bindings []VirtualVolumeBinding `json:"bindings"`
-}
-
-type ListVirtualVolumeHostsResult struct {
-	Hosts []VirtualVolumeHost `json:"hosts"`
-}
-
-type ListVirtualVolumeTasksResult struct {
-	Tasks []VirtualVolumeTask `json:"tasks"`
-}
-
-type ListVirtualVolumesResult struct {
-	VirtualVolumes      []VirtualVolumeInfo `json:"virtualVolumes"`
-	NextVirtualVolumeID string              `json:"nextVirtualVolumeID,omitempty"`
-}
-
 type ListVolumeAccessGroupsResult struct {
-	VolumeAccessGroups         []VolumeAccessGroup `json:"volumeAccessGroups"`
-	VolumeAccessGroupsNotFound []int64             `json:"volumeAccessGroupsNotFound,omitempty"`
+	VolumeAccessGroups []VolumeAccessGroup `json:"volumeAccessGroups"`
 }
 
 type ListVolumeStatsByAccountResult struct {
 	VolumeStats []VolumeStats `json:"volumeStats"`
-}
-
-type ListVolumeStatsByVirtualVolumeResult struct {
-	VolumeStats []VirtualVolumeStats `json:"volumeStats"`
 }
 
 type ListVolumeStatsByVolumeAccessGroupResult struct {
@@ -584,20 +370,12 @@ type ListVolumeStatsByVolumeResult struct {
 	VolumeStats []VolumeStats `json:"volumeStats"`
 }
 
-type ListVolumeStatsResult struct {
-	VolumeStats []VolumeStats `json:"volumeStats"`
-}
-
 type ListVolumesForAccountResult struct {
 	Volumes []Volume `json:"volumes"`
 }
 
 type ListVolumesResult struct {
 	Volumes []Volume `json:"volumes"`
-}
-
-type ModifyAccountResult struct {
-	Account Account `json:"account"`
 }
 
 type ModifyClusterFullThresholdResult struct {
@@ -620,69 +398,17 @@ type ModifyClusterFullThresholdResult struct {
 	SumUsedMetadataClusterBytes    int64  `json:"sumUsedMetadataClusterBytes"`
 }
 
-type ModifyGroupSnapshotResult struct {
-	GroupSnapshot GroupSnapshot `json:"groupSnapshot"`
-}
-
-type ModifyInitiatorsResult struct {
-	Initiators []Initiator `json:"initiators"`
-}
-
-type ModifyScheduleResult struct {
-	Schedule Schedule `json:"schedule,omitempty"`
-}
-
-type ModifySnapshotResult struct {
-	Snapshot Snapshot `json:"snapshot,omitempty"`
-}
-
-type ModifyStorageContainerResult struct {
-	StorageContainer StorageContainer `json:"storageContainer"`
-}
-
-type ModifyVolumeAccessGroupLunAssignmentsResult struct {
-	VolumeAccessGroupLunAssignments VolumeAccessGroupLunAssignments `json:"volumeAccessGroupLunAssignments"`
-}
-
-type ModifyVolumeAccessGroupResult struct {
-	VolumeAccessGroup VolumeAccessGroup `json:"volumeAccessGroup"`
-}
-
 type ModifyVolumeResult struct {
-	Volume Volume `json:"volume,omitempty"`
+	Curve int64 `json:"curve"`
 }
 
-type ModifyVolumesResult struct {
-	Volumes []Volume `json:"volumes"`
-	Qos     QoS      `json:"qos,omitempty"`
-}
-
-type NodeStateResult struct {
-	NodeID int64         `json:"nodeID"`
-	Result NodeStateInfo `json:"result,omitempty"`
+type NodeFibreChannelPortInfoResult struct {
+	NodeID int64                `json:"nodeID"`
+	Result FibreChannelPortList `json:"result"`
 }
 
 type ResetDrivesResult struct {
 	Details ResetDrivesDetails `json:"details"`
-}
-
-type ResetNodeResult struct {
-	Details  ResetNodeDetails `json:"details,omitempty"`
-	Duration string           `json:"duration,omitempty"`
-	Result   string           `json:"result,omitempty"`
-	RtfiInfo RtfiInfo         `json:"rtfiInfo,omitempty"`
-}
-
-type RollbackToGroupSnapshotResult struct {
-	GroupSnapshot   GroupSnapshot          `json:"groupSnapshot,omitempty"`
-	GroupSnapshotID int64                  `json:"groupSnapshotID,omitempty"`
-	Members         []GroupSnapshotMembers `json:"members,omitempty"`
-}
-
-type RollbackToSnapshotResult struct {
-	Snapshot   Snapshot `json:"snapshot,omitempty"`
-	SnapshotID int64    `json:"snapshotID,omitempty"`
-	Checksum   string   `json:"checksum,omitempty"`
 }
 
 type SetClusterConfigResult struct {
@@ -693,19 +419,8 @@ type SetConfigResult struct {
 	Config Config `json:"config"`
 }
 
-type SetDefaultQoSResult struct {
-	MinIOPS   int64 `json:"minIOPS"`
-	MaxIOPS   int64 `json:"maxIOPS"`
-	BurstIOPS int64 `json:"burstIOPS"`
-}
-
 type SetNetworkConfigResult struct {
 	Network Network `json:"network"`
-}
-
-type ShutdownResult struct {
-	Failed     []int64 `json:"failed"`
-	Successful []int64 `json:"successful"`
 }
 
 type SnmpSendTestTrapsResult struct {
@@ -752,9 +467,7 @@ type TestConnectSvipResult struct {
 }
 
 type TestDrivesResult struct {
-	Details  string `json:"details"`
-	Duration string `json:"duration"`
-	Result   string `json:"result"`
+	Details string `json:"details"`
 }
 
 type TestLdapAuthenticationResult struct {

@@ -3,7 +3,6 @@ package sfapi
 import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/solidfire/solidfire-sdk-golang/sftypes"
-	"github.com/ottemo/mapstructure"
 )
 
 func (c *Client) AddAccount(request sftypes.AddAccountRequest) (*sftypes.AddAccountResult, error) {
@@ -37,67 +36,40 @@ func (c *Client) AddClusterAdmin(request sftypes.AddClusterAdminRequest) (*sftyp
 
 }
 
-func (c *Client) AddDrives(request sftypes.AddDrivesRequest) (*sftypes.AddDrivesResult, error) {
+func (c *Client) AddDrives(request sftypes.AddDrivesRequest) error {
 	response, err := c.SendRequest("AddDrives", request)
 	if err != nil {
 		log.Errorf("Err: %v", err)
-		return nil, err
+		return err
 	}
-	var result sftypes.AddDrivesResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
+	if response != nil {
+		log.Debugf("AddDrives: ", response)
 	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
+	return err
 }
 
-func (c *Client) AddInitiatorsToVolumeAccessGroup(request sftypes.AddInitiatorsToVolumeAccessGroupRequest) (*sftypes.ModifyVolumeAccessGroupResult, error) {
+func (c *Client) AddInitiatorsToVolumeAccessGroup(request sftypes.AddInitiatorsToVolumeAccessGroupRequest) error {
 	response, err := c.SendRequest("AddInitiatorsToVolumeAccessGroup", request)
 	if err != nil {
 		log.Errorf("Err: %v", err)
-		return nil, err
+		return err
 	}
-	var result sftypes.ModifyVolumeAccessGroupResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
+	if response != nil {
+		log.Debugf("AddInitiatorsToVolumeAccessGroup: ", response)
 	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
+	return err
 }
 
-func (c *Client) AddLdapClusterAdmin(request sftypes.AddLdapClusterAdminRequest) (*sftypes.AddLdapClusterAdminResult, error) {
+func (c *Client) AddLdapClusterAdmin(request sftypes.AddLdapClusterAdminRequest) error {
 	response, err := c.SendRequest("AddLdapClusterAdmin", request)
 	if err != nil {
 		log.Errorf("Err: %v", err)
-		return nil, err
+		return err
 	}
-	var result sftypes.AddLdapClusterAdminResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
+	if response != nil {
+		log.Debugf("AddLdapClusterAdmin: ", response)
 	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
+	return err
 }
 
 func (c *Client) AddNodes(request sftypes.AddNodesRequest) (*sftypes.AddNodesResult, error) {
@@ -142,47 +114,14 @@ func (c *Client) AddVirtualNetwork(request sftypes.AddVirtualNetworkRequest) (*s
 
 }
 
-func (c *Client) AddVolumesToVolumeAccessGroup(request sftypes.AddVolumesToVolumeAccessGroupRequest) (*sftypes.ModifyVolumeAccessGroupResult, error) {
+func (c *Client) AddVolumesToVolumeAccessGroup(request sftypes.AddVolumesToVolumeAccessGroupRequest) error {
 	response, err := c.SendRequest("AddVolumesToVolumeAccessGroup", request)
 	if err != nil {
 		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ModifyVolumeAccessGroupResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) CancelClone(request sftypes.CancelCloneRequest) error {
-	response, err := c.SendRequest("CancelClone", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
 		return err
 	}
 	if response != nil {
-		log.Debugf("CancelClone: ", response)
-	}
-	return err
-}
-
-func (c *Client) CancelGroupClone(request sftypes.CancelGroupCloneRequest) error {
-	response, err := c.SendRequest("CancelGroupClone", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return err
-	}
-	if response != nil {
-		log.Debugf("CancelGroupClone: ", response)
+		log.Debugf("AddVolumesToVolumeAccessGroup: ", response)
 	}
 	return err
 }
@@ -274,27 +213,6 @@ func (c *Client) CompleteVolumePairing(request sftypes.CompleteVolumePairingRequ
 	return err
 }
 
-func (c *Client) CopyVolume(request sftypes.CopyVolumeRequest) (*sftypes.CopyVolumeResult, error) {
-	response, err := c.SendRequest("CopyVolume", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.CopyVolumeResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
 func (c *Client) CreateBackupTarget(request sftypes.CreateBackupTargetRequest) (*sftypes.CreateBackupTargetResult, error) {
 	response, err := c.SendRequest("CreateBackupTarget", request)
 	if err != nil {
@@ -316,18 +234,6 @@ func (c *Client) CreateBackupTarget(request sftypes.CreateBackupTargetRequest) (
 
 }
 
-func (c *Client) CreateCluster(request sftypes.CreateClusterRequest) error {
-	response, err := c.SendRequest("CreateCluster", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return err
-	}
-	if response != nil {
-		log.Debugf("CreateCluster: ", response)
-	}
-	return err
-}
-
 func (c *Client) CreateGroupSnapshot(request sftypes.CreateGroupSnapshotRequest) (*sftypes.CreateGroupSnapshotResult, error) {
 	response, err := c.SendRequest("CreateGroupSnapshot", request)
 	if err != nil {
@@ -335,27 +241,6 @@ func (c *Client) CreateGroupSnapshot(request sftypes.CreateGroupSnapshotRequest)
 		return nil, err
 	}
 	var result sftypes.CreateGroupSnapshotResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) CreateInitiators(request sftypes.CreateInitiatorsRequest) (*sftypes.CreateInitiatorsResult, error) {
-	response, err := c.SendRequest("CreateInitiators", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.CreateInitiatorsResult
 	decoder, err := GetDecoder(&result)
 	if err != nil {
 		log.Errorf("Err: %v", err)
@@ -387,48 +272,6 @@ func (c *Client) CreateSnapshot(request sftypes.CreateSnapshotRequest) (*sftypes
 		return nil, err
 	}
 	var result sftypes.CreateSnapshotResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) CreateStorageContainer(request sftypes.CreateStorageContainerRequest) (*sftypes.CreateStorageContainerResult, error) {
-	response, err := c.SendRequest("CreateStorageContainer", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.CreateStorageContainerResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) CreateSupportBundle(request sftypes.CreateSupportBundleRequest) (*sftypes.CreateSupportBundleResult, error) {
-	response, err := c.SendRequest("CreateSupportBundle", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.CreateSupportBundleResult
 	decoder, err := GetDecoder(&result)
 	if err != nil {
 		log.Errorf("Err: %v", err)
@@ -485,27 +328,6 @@ func (c *Client) CreateVolumeAccessGroup(request sftypes.CreateVolumeAccessGroup
 
 }
 
-func (c *Client) DeleteAllSupportBundles() (*sftypes.DeleteAllSupportBundlesResult, error) {
-	response, err := c.SendRequest("DeleteAllSupportBundles", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.DeleteAllSupportBundlesResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
 func (c *Client) DeleteGroupSnapshot(request sftypes.DeleteGroupSnapshotRequest) error {
 	response, err := c.SendRequest("DeleteGroupSnapshot", request)
 	if err != nil {
@@ -514,18 +336,6 @@ func (c *Client) DeleteGroupSnapshot(request sftypes.DeleteGroupSnapshotRequest)
 	}
 	if response != nil {
 		log.Debugf("DeleteGroupSnapshot: ", response)
-	}
-	return err
-}
-
-func (c *Client) DeleteInitiators(request sftypes.DeleteInitiatorsRequest) error {
-	response, err := c.SendRequest("DeleteInitiators", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return err
-	}
-	if response != nil {
-		log.Debugf("DeleteInitiators: ", response)
 	}
 	return err
 }
@@ -542,37 +352,16 @@ func (c *Client) DeleteSnapshot(request sftypes.DeleteSnapshotRequest) error {
 	return err
 }
 
-func (c *Client) DeleteStorageContainers(request sftypes.DeleteStorageContainersRequest) error {
-	response, err := c.SendRequest("DeleteStorageContainers", request)
+func (c *Client) DeleteVolume(request sftypes.DeleteVolumeRequest) error {
+	response, err := c.SendRequest("DeleteVolume", request)
 	if err != nil {
 		log.Errorf("Err: %v", err)
 		return err
 	}
 	if response != nil {
-		log.Debugf("DeleteStorageContainers: ", response)
+		log.Debugf("DeleteVolume: ", response)
 	}
 	return err
-}
-
-func (c *Client) DeleteVolume(request sftypes.DeleteVolumeRequest) (*sftypes.DeleteVolumeResult, error) {
-	response, err := c.SendRequest("DeleteVolume", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.DeleteVolumeResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
 }
 
 func (c *Client) DeleteVolumeAccessGroup(request sftypes.DeleteVolumeAccessGroupRequest) error {
@@ -585,27 +374,6 @@ func (c *Client) DeleteVolumeAccessGroup(request sftypes.DeleteVolumeAccessGroup
 		log.Debugf("DeleteVolumeAccessGroup: ", response)
 	}
 	return err
-}
-
-func (c *Client) DeleteVolumes(request sftypes.DeleteVolumesRequest) (*sftypes.DeleteVolumesResult, error) {
-	response, err := c.SendRequest("DeleteVolumes", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.DeleteVolumesResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
 }
 
 func (c *Client) DisableEncryptionAtRest() error {
@@ -652,18 +420,6 @@ func (c *Client) EnableEncryptionAtRest() error {
 	}
 	if response != nil {
 		log.Debugf("EnableEncryptionAtRest: ", response)
-	}
-	return err
-}
-
-func (c *Client) EnableFeature(request sftypes.EnableFeatureRequest) error {
-	response, err := c.SendRequest("EnableFeature", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return err
-	}
-	if response != nil {
-		log.Debugf("EnableFeature: ", response)
 	}
 	return err
 }
@@ -720,7 +476,7 @@ func (c *Client) GetAccountByID(request sftypes.GetAccountByIDRequest) (*sftypes
 		return nil, err
 	}
 	var result sftypes.GetAccountResult
-	decoder, err := mapstructure.NewDecoder(sftypes.GetAccountResultDecodeHookConfig(&result))
+	decoder, err := GetDecoder(&result)
 	if err != nil {
 		log.Errorf("Err: %v", err)
 		return nil, err
@@ -741,7 +497,7 @@ func (c *Client) GetAccountByName(request sftypes.GetAccountByNameRequest) (*sft
 		return nil, err
 	}
 	var result sftypes.GetAccountResult
-	decoder, err := mapstructure.NewDecoder(sftypes.GetAccountResultDecodeHookConfig(&result))
+	decoder, err := GetDecoder(&result)
 	if err != nil {
 		log.Errorf("Err: %v", err)
 		return nil, err
@@ -776,13 +532,13 @@ func (c *Client) GetAccountEfficiency(request sftypes.GetAccountEfficiencyReques
 
 }
 
-func (c *Client) GetAsyncResult(request sftypes.GetAsyncResultRequest) (interface{}, error) {
+func (c *Client) GetAsyncResult(request sftypes.GetAsyncResultRequest) (*sftypes.GetAsyncResultResult, error) {
 	response, err := c.SendRequest("GetAsyncResult", request)
 	if err != nil {
 		log.Errorf("Err: %v", err)
 		return nil, err
 	}
-	var result interface{}
+	var result sftypes.GetAsyncResultResult
 	decoder, err := GetDecoder(&result)
 	if err != nil {
 		log.Errorf("Err: %v", err)
@@ -804,27 +560,6 @@ func (c *Client) GetBackupTarget(request sftypes.GetBackupTargetRequest) (*sftyp
 		return nil, err
 	}
 	var result sftypes.GetBackupTargetResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) GetBootstrapConfig() (*sftypes.GetBootstrapConfigResult, error) {
-	response, err := c.SendRequest("GetBootstrapConfig", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetBootstrapConfigResult
 	decoder, err := GetDecoder(&result)
 	if err != nil {
 		log.Errorf("Err: %v", err)
@@ -902,27 +637,6 @@ func (c *Client) GetClusterFullThreshold() (*sftypes.GetClusterFullThresholdResu
 
 }
 
-func (c *Client) GetClusterHardwareInfo(request sftypes.GetClusterHardwareInfoRequest) (*sftypes.GetClusterHardwareInfoResult, error) {
-	response, err := c.SendRequest("GetClusterHardwareInfo", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetClusterHardwareInfoResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
 func (c *Client) GetClusterInfo() (*sftypes.GetClusterInfoResult, error) {
 	response, err := c.SendRequest("GetClusterInfo", nil)
 	if err != nil {
@@ -930,48 +644,6 @@ func (c *Client) GetClusterInfo() (*sftypes.GetClusterInfoResult, error) {
 		return nil, err
 	}
 	var result sftypes.GetClusterInfoResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) GetClusterMasterNodeID() (*sftypes.GetClusterMasterNodeIDResult, error) {
-	response, err := c.SendRequest("GetClusterMasterNodeID", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetClusterMasterNodeIDResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) GetClusterState(request sftypes.GetClusterStateRequest) (*sftypes.GetClusterStateResult, error) {
-	response, err := c.SendRequest("GetClusterState", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetClusterStateResult
 	decoder, err := GetDecoder(&result)
 	if err != nil {
 		log.Errorf("Err: %v", err)
@@ -1082,48 +754,6 @@ func (c *Client) GetCurrentClusterAdmin() (*sftypes.GetCurrentClusterAdminResult
 
 }
 
-func (c *Client) GetDefaultQoS() (*sftypes.VolumeQOS, error) {
-	response, err := c.SendRequest("GetDefaultQoS", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.VolumeQOS
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) GetDriveConfig() (*sftypes.GetDriveConfigResult, error) {
-	response, err := c.SendRequest("GetDriveConfig", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetDriveConfigResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
 func (c *Client) GetDriveHardwareInfo(request sftypes.GetDriveHardwareInfoRequest) (*sftypes.GetDriveHardwareInfoResult, error) {
 	response, err := c.SendRequest("GetDriveHardwareInfo", request)
 	if err != nil {
@@ -1153,111 +783,6 @@ func (c *Client) GetDriveStats(request sftypes.GetDriveStatsRequest) (*sftypes.G
 		return nil, err
 	}
 	return &result, nil
-}
-
-func (c *Client) GetFeatureStatus(request sftypes.GetFeatureStatusRequest) (*sftypes.GetFeatureStatusResult, error) {
-	response, err := c.SendRequest("GetFeatureStatus", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetFeatureStatusResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) GetHardwareConfig() (*sftypes.GetHardwareConfigResult, error) {
-	response, err := c.SendRequest("GetHardwareConfig", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetHardwareConfigResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) GetHardwareInfo() (*sftypes.GetHardwareInfoResult, error) {
-	response, err := c.SendRequest("GetHardwareInfo", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetHardwareInfoResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) GetIpmiConfig(request sftypes.GetIpmiConfigRequest) (*sftypes.GetIpmiConfigResult, error) {
-	response, err := c.SendRequest("GetIpmiConfig", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetIpmiConfigResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) GetIpmiInfo() (*sftypes.GetIpmiInfoResult, error) {
-	response, err := c.SendRequest("GetIpmiInfo", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetIpmiInfoResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
 }
 
 func (c *Client) GetLdapConfiguration() (*sftypes.GetLdapConfigurationResult, error) {
@@ -1302,27 +827,6 @@ func (c *Client) GetLimits() (*sftypes.GetLimitsResult, error) {
 
 }
 
-func (c *Client) GetLoginSessionInfo() (*sftypes.GetLoginSessionInfoResult, error) {
-	response, err := c.SendRequest("GetLoginSessionInfo", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetLoginSessionInfoResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
 func (c *Client) GetNetworkConfig() (*sftypes.GetNetworkConfigResult, error) {
 	response, err := c.SendRequest("GetNetworkConfig", nil)
 	if err != nil {
@@ -1330,27 +834,6 @@ func (c *Client) GetNetworkConfig() (*sftypes.GetNetworkConfigResult, error) {
 		return nil, err
 	}
 	var result sftypes.GetNetworkConfigResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) GetNodeHardwareInfo(request sftypes.GetNodeHardwareInfoRequest) (*sftypes.GetNodeHardwareInfoResult, error) {
-	response, err := c.SendRequest("GetNodeHardwareInfo", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetNodeHardwareInfoResult
 	decoder, err := GetDecoder(&result)
 	if err != nil {
 		log.Errorf("Err: %v", err)
@@ -1375,90 +858,6 @@ func (c *Client) GetNodeStats(request sftypes.GetNodeStatsRequest) (*sftypes.Get
 	return &result, nil
 }
 
-func (c *Client) GetNtpInfo() (*sftypes.GetNtpInfoResult, error) {
-	response, err := c.SendRequest("GetNtpInfo", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetNtpInfoResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) GetNvramInfo(request sftypes.GetNvramInfoRequest) (*sftypes.GetNvramInfoResult, error) {
-	response, err := c.SendRequest("GetNvramInfo", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetNvramInfoResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) GetOrigin() (*sftypes.GetOriginResult, error) {
-	response, err := c.SendRequest("GetOrigin", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetOriginResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) GetPendingOperation() (*sftypes.GetPendingOperationResult, error) {
-	response, err := c.SendRequest("GetPendingOperation", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetPendingOperationResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
 func (c *Client) GetRawStats() error {
 	response, err := c.SendRequest("GetRawStats", nil)
 	if err != nil {
@@ -1469,27 +868,6 @@ func (c *Client) GetRawStats() error {
 		log.Debugf("GetRawStats: ", response)
 	}
 	return err
-}
-
-func (c *Client) GetRemoteLoggingHosts() (*sftypes.GetRemoteLoggingHostsResult, error) {
-	response, err := c.SendRequest("GetRemoteLoggingHosts", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetRemoteLoggingHostsResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
 }
 
 func (c *Client) GetSchedule(request sftypes.GetScheduleRequest) (*sftypes.GetScheduleResult, error) {
@@ -1586,69 +964,6 @@ func (c *Client) GetSnmpTrapInfo() (*sftypes.GetSnmpTrapInfoResult, error) {
 
 }
 
-func (c *Client) GetStorageContainerEfficiency(request sftypes.GetStorageContainerEfficiencyRequest) (*sftypes.GetStorageContainerEfficiencyResult, error) {
-	response, err := c.SendRequest("GetStorageContainerEfficiency", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetStorageContainerEfficiencyResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) GetSystemStatus() (*sftypes.GetSystemStatusResult, error) {
-	response, err := c.SendRequest("GetSystemStatus", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetSystemStatusResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) GetVirtualVolumeCount() (*sftypes.GetVirtualVolumeCountResult, error) {
-	response, err := c.SendRequest("GetVirtualVolumeCount", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetVirtualVolumeCountResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
 func (c *Client) GetVolumeAccessGroupEfficiency(request sftypes.GetVolumeAccessGroupEfficiencyRequest) (*sftypes.GetEfficiencyResult, error) {
 	response, err := c.SendRequest("GetVolumeAccessGroupEfficiency", request)
 	if err != nil {
@@ -1677,27 +992,6 @@ func (c *Client) GetVolumeAccessGroupLunAssignments(request sftypes.GetVolumeAcc
 		return nil, err
 	}
 	var result sftypes.GetVolumeAccessGroupLunAssignmentsResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) GetVolumeCount() (*sftypes.GetVolumeCountResult, error) {
-	response, err := c.SendRequest("GetVolumeCount", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.GetVolumeCountResult
 	decoder, err := GetDecoder(&result)
 	if err != nil {
 		log.Errorf("Err: %v", err)
@@ -1754,16 +1048,6 @@ func (c *Client) GetVolumeStats(request sftypes.GetVolumeStatsRequest) (*sftypes
 
 }
 
-func (c *Client) InvokeSFApi(request sftypes.InvokeSFApiRequest) (interface{}, error) {
-	// Adaptor
-	result, err := c.InvokeSFApiAdaptor(request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-}
-
 func (c *Client) ListAccounts(request sftypes.ListAccountsRequest) (*sftypes.ListAccountsResult, error) {
 	response, err := c.SendRequest("ListAccounts", request)
 	if err != nil {
@@ -1771,7 +1055,7 @@ func (c *Client) ListAccounts(request sftypes.ListAccountsRequest) (*sftypes.Lis
 		return nil, err
 	}
 	var result sftypes.ListAccountsResult
-	decoder, err := mapstructure.NewDecoder(sftypes.ListAccountsResultDecodeHookConfig(&result))
+	decoder, err := GetDecoder(&result)
 	if err != nil {
 		log.Errorf("Err: %v", err)
 		return nil, err
@@ -1806,8 +1090,8 @@ func (c *Client) ListActiveNodes() (*sftypes.ListActiveNodesResult, error) {
 
 }
 
-func (c *Client) ListActivePairedVolumes(request sftypes.ListActivePairedVolumesRequest) (*sftypes.ListActivePairedVolumesResult, error) {
-	response, err := c.SendRequest("ListActivePairedVolumes", request)
+func (c *Client) ListActivePairedVolumes() (*sftypes.ListActivePairedVolumesResult, error) {
+	response, err := c.SendRequest("ListActivePairedVolumes", nil)
 	if err != nil {
 		log.Errorf("Err: %v", err)
 		return nil, err
@@ -1855,27 +1139,6 @@ func (c *Client) ListAllNodes() (*sftypes.ListAllNodesResult, error) {
 		return nil, err
 	}
 	var result sftypes.ListAllNodesResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) ListAsyncResults(request sftypes.ListAsyncResultsRequest) (*sftypes.ListAsyncResultsResult, error) {
-	response, err := c.SendRequest("ListAsyncResults", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ListAsyncResultsResult
 	decoder, err := GetDecoder(&result)
 	if err != nil {
 		log.Errorf("Err: %v", err)
@@ -1995,8 +1258,8 @@ func (c *Client) ListClusterPairs() (*sftypes.ListClusterPairsResult, error) {
 
 }
 
-func (c *Client) ListDeletedVolumes(request sftypes.ListDeletedVolumesRequest) (*sftypes.ListDeletedVolumesResult, error) {
-	response, err := c.SendRequest("ListDeletedVolumes", request)
+func (c *Client) ListDeletedVolumes() (*sftypes.ListDeletedVolumesResult, error) {
+	response, err := c.SendRequest("ListDeletedVolumes", nil)
 	if err != nil {
 		log.Errorf("Err: %v", err)
 		return nil, err
@@ -2023,27 +1286,6 @@ func (c *Client) ListDriveHardware(request sftypes.ListDriveHardwareRequest) (*s
 		return nil, err
 	}
 	var result sftypes.ListDriveHardwareResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) ListDriveStats(request sftypes.ListDriveStatsRequest) (*sftypes.ListDriveStatsResult, error) {
-	response, err := c.SendRequest("ListDriveStats", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ListDriveStatsResult
 	decoder, err := GetDecoder(&result)
 	if err != nil {
 		log.Errorf("Err: %v", err)
@@ -2184,50 +1426,8 @@ func (c *Client) ListISCSISessions() (*sftypes.ListISCSISessionsResult, error) {
 
 }
 
-func (c *Client) ListInitiators(request sftypes.ListInitiatorsRequest) (*sftypes.ListInitiatorsResult, error) {
-	response, err := c.SendRequest("ListInitiators", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ListInitiatorsResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) ListNetworkInterfaces() (*sftypes.ListNetworkInterfacesResult, error) {
-	response, err := c.SendRequest("ListNetworkInterfaces", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ListNetworkInterfacesResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) ListNodeFibreChannelPortInfo() (*sftypes.ListNodeFibreChannelPortInfoResult, error) {
-	response, err := c.SendRequest("ListNodeFibreChannelPortInfo", nil)
+func (c *Client) ListNodeFibreChannelPortInfo(request sftypes.ListNodeFibreChannelPortInfoRequest) (*sftypes.ListNodeFibreChannelPortInfoResult, error) {
+	response, err := c.SendRequest("ListNodeFibreChannelPortInfo", request)
 	if err != nil {
 		log.Errorf("Err: %v", err)
 		return nil, err
@@ -2268,27 +1468,6 @@ func (c *Client) ListNodeStats() (*sftypes.ListNodeStatsResult, error) {
 
 }
 
-func (c *Client) ListPendingActiveNodes() (*sftypes.ListPendingActiveNodesResult, error) {
-	response, err := c.SendRequest("ListPendingActiveNodes", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ListPendingActiveNodesResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
 func (c *Client) ListPendingNodes() (*sftypes.ListPendingNodesResult, error) {
 	response, err := c.SendRequest("ListPendingNodes", nil)
 	if err != nil {
@@ -2296,27 +1475,6 @@ func (c *Client) ListPendingNodes() (*sftypes.ListPendingNodesResult, error) {
 		return nil, err
 	}
 	var result sftypes.ListPendingNodesResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) ListProtocolEndpoints(request sftypes.ListProtocolEndpointsRequest) (*sftypes.ListProtocolEndpointsResult, error) {
-	response, err := c.SendRequest("ListProtocolEndpoints", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ListProtocolEndpointsResult
 	decoder, err := GetDecoder(&result)
 	if err != nil {
 		log.Errorf("Err: %v", err)
@@ -2341,27 +1499,6 @@ func (c *Client) ListSchedules() (*sftypes.ListSchedulesResult, error) {
 	return &result, nil
 }
 
-func (c *Client) ListServices() (*sftypes.ListServicesResult, error) {
-	response, err := c.SendRequest("ListServices", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ListServicesResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
 func (c *Client) ListSnapshots(request sftypes.ListSnapshotsRequest) (*sftypes.ListSnapshotsResult, error) {
 	response, err := c.SendRequest("ListSnapshots", request)
 	if err != nil {
@@ -2369,48 +1506,6 @@ func (c *Client) ListSnapshots(request sftypes.ListSnapshotsRequest) (*sftypes.L
 		return nil, err
 	}
 	var result sftypes.ListSnapshotsResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) ListStorageContainers(request sftypes.ListStorageContainersRequest) (*sftypes.ListStorageContainersResult, error) {
-	response, err := c.SendRequest("ListStorageContainers", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ListStorageContainersResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) ListSyncJobs() (*sftypes.ListSyncJobsResult, error) {
-	response, err := c.SendRequest("ListSyncJobs", nil)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ListSyncJobsResult
 	decoder, err := GetDecoder(&result)
 	if err != nil {
 		log.Errorf("Err: %v", err)
@@ -2488,90 +1583,6 @@ func (c *Client) ListVirtualNetworks(request sftypes.ListVirtualNetworksRequest)
 
 }
 
-func (c *Client) ListVirtualVolumeBindings(request sftypes.ListVirtualVolumeBindingsRequest) (*sftypes.ListVirtualVolumeBindingsResult, error) {
-	response, err := c.SendRequest("ListVirtualVolumeBindings", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ListVirtualVolumeBindingsResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) ListVirtualVolumeHosts(request sftypes.ListVirtualVolumeHostsRequest) (*sftypes.ListVirtualVolumeHostsResult, error) {
-	response, err := c.SendRequest("ListVirtualVolumeHosts", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ListVirtualVolumeHostsResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) ListVirtualVolumeTasks(request sftypes.ListVirtualVolumeTasksRequest) (*sftypes.ListVirtualVolumeTasksResult, error) {
-	response, err := c.SendRequest("ListVirtualVolumeTasks", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ListVirtualVolumeTasksResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) ListVirtualVolumes(request sftypes.ListVirtualVolumesRequest) (*sftypes.ListVirtualVolumesResult, error) {
-	response, err := c.SendRequest("ListVirtualVolumes", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ListVirtualVolumesResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
 func (c *Client) ListVolumeAccessGroups(request sftypes.ListVolumeAccessGroupsRequest) (*sftypes.ListVolumeAccessGroupsResult, error) {
 	response, err := c.SendRequest("ListVolumeAccessGroups", request)
 	if err != nil {
@@ -2593,29 +1604,8 @@ func (c *Client) ListVolumeAccessGroups(request sftypes.ListVolumeAccessGroupsRe
 
 }
 
-func (c *Client) ListVolumeStats(request sftypes.ListVolumeStatsRequest) (*sftypes.ListVolumeStatsResult, error) {
-	response, err := c.SendRequest("ListVolumeStats", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ListVolumeStatsResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) ListVolumeStatsByAccount(request sftypes.ListVolumeStatsByAccountRequest) (*sftypes.ListVolumeStatsByAccountResult, error) {
-	response, err := c.SendRequest("ListVolumeStatsByAccount", request)
+func (c *Client) ListVolumeStatsByAccount() (*sftypes.ListVolumeStatsByAccountResult, error) {
+	response, err := c.SendRequest("ListVolumeStatsByAccount", nil)
 	if err != nil {
 		log.Errorf("Err: %v", err)
 		return nil, err
@@ -2635,29 +1625,8 @@ func (c *Client) ListVolumeStatsByAccount(request sftypes.ListVolumeStatsByAccou
 
 }
 
-func (c *Client) ListVolumeStatsByVirtualVolume(request sftypes.ListVolumeStatsByVirtualVolumeRequest) (*sftypes.ListVolumeStatsByVirtualVolumeResult, error) {
-	response, err := c.SendRequest("ListVolumeStatsByVirtualVolume", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ListVolumeStatsByVirtualVolumeResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) ListVolumeStatsByVolume(request sftypes.ListVolumeStatsByVolumeRequest) (*sftypes.ListVolumeStatsByVolumeResult, error) {
-	response, err := c.SendRequest("ListVolumeStatsByVolume", request)
+func (c *Client) ListVolumeStatsByVolume() (*sftypes.ListVolumeStatsByVolumeResult, error) {
+	response, err := c.SendRequest("ListVolumeStatsByVolume", nil)
 	if err != nil {
 		log.Errorf("Err: %v", err)
 		return nil, err
@@ -2740,14 +1709,14 @@ func (c *Client) ListVolumesForAccount(request sftypes.ListVolumesForAccountRequ
 
 }
 
-func (c *Client) ModifyAccount(request sftypes.ModifyAccountRequest) (*sftypes.ModifyAccountResult, error) {
+func (c *Client) ModifyAccount(request sftypes.ModifyAccountRequest) error {
 	// Adaptor
-	result, err := c.ModifyAccountAdaptor(request)
+	err := c.ModifyAccountAdaptor(request)
 	if err != nil {
 		log.Errorf("Err: %v", err)
-		return nil, err
+		return err
 	}
-	return &result, nil
+	return nil
 }
 
 func (c *Client) ModifyBackupTarget(request sftypes.ModifyBackupTargetRequest) error {
@@ -2795,98 +1764,38 @@ func (c *Client) ModifyClusterFullThreshold(request sftypes.ModifyClusterFullThr
 
 }
 
-func (c *Client) ModifyGroupSnapshot(request sftypes.ModifyGroupSnapshotRequest) (*sftypes.ModifyGroupSnapshotResult, error) {
+func (c *Client) ModifyGroupSnapshot(request sftypes.ModifyGroupSnapshotRequest) error {
 	response, err := c.SendRequest("ModifyGroupSnapshot", request)
 	if err != nil {
 		log.Errorf("Err: %v", err)
-		return nil, err
+		return err
 	}
-	var result sftypes.ModifyGroupSnapshotResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
+	if response != nil {
+		log.Debugf("ModifyGroupSnapshot: ", response)
 	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
+	return err
 }
 
-func (c *Client) ModifyInitiators(request sftypes.ModifyInitiatorsRequest) (*sftypes.ModifyInitiatorsResult, error) {
-	response, err := c.SendRequest("ModifyInitiators", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ModifyInitiatorsResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) ModifySchedule(request sftypes.ModifyScheduleRequest) (*sftypes.ModifyScheduleResult, error) {
+func (c *Client) ModifySchedule(request sftypes.ModifyScheduleRequest) error {
 	// Adaptor
-	result, err := c.ModifyScheduleAdaptor(request)
+	err := c.ModifyScheduleAdaptor(request)
 	if err != nil {
 		log.Errorf("Err: %v", err)
-		return nil, err
+		return err
 	}
-	return &result, nil
+	return nil
 }
 
-func (c *Client) ModifySnapshot(request sftypes.ModifySnapshotRequest) (*sftypes.ModifySnapshotResult, error) {
+func (c *Client) ModifySnapshot(request sftypes.ModifySnapshotRequest) error {
 	response, err := c.SendRequest("ModifySnapshot", request)
 	if err != nil {
 		log.Errorf("Err: %v", err)
-		return nil, err
+		return err
 	}
-	var result sftypes.ModifySnapshotResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
+	if response != nil {
+		log.Debugf("ModifySnapshot: ", response)
 	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) ModifyStorageContainer(request sftypes.ModifyStorageContainerRequest) (*sftypes.ModifyStorageContainerResult, error) {
-	response, err := c.SendRequest("ModifyStorageContainer", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ModifyStorageContainerResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
+	return err
 }
 
 func (c *Client) ModifyVirtualNetwork(request sftypes.ModifyVirtualNetworkRequest) (*sftypes.AddVirtualNetworkResult, error) {
@@ -2931,46 +1840,28 @@ func (c *Client) ModifyVolume(request sftypes.ModifyVolumeRequest) (*sftypes.Mod
 
 }
 
-func (c *Client) ModifyVolumeAccessGroup(request sftypes.ModifyVolumeAccessGroupRequest) (*sftypes.ModifyVolumeAccessGroupResult, error) {
+func (c *Client) ModifyVolumeAccessGroup(request sftypes.ModifyVolumeAccessGroupRequest) error {
 	response, err := c.SendRequest("ModifyVolumeAccessGroup", request)
 	if err != nil {
 		log.Errorf("Err: %v", err)
-		return nil, err
+		return err
 	}
-	var result sftypes.ModifyVolumeAccessGroupResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
+	if response != nil {
+		log.Debugf("ModifyVolumeAccessGroup: ", response)
 	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
+	return err
 }
 
-func (c *Client) ModifyVolumeAccessGroupLunAssignments(request sftypes.ModifyVolumeAccessGroupLunAssignmentsRequest) (*sftypes.ModifyVolumeAccessGroupLunAssignmentsResult, error) {
+func (c *Client) ModifyVolumeAccessGroupLunAssignments(request sftypes.ModifyVolumeAccessGroupLunAssignmentsRequest) error {
 	response, err := c.SendRequest("ModifyVolumeAccessGroupLunAssignments", request)
 	if err != nil {
 		log.Errorf("Err: %v", err)
-		return nil, err
+		return err
 	}
-	var result sftypes.ModifyVolumeAccessGroupLunAssignmentsResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
+	if response != nil {
+		log.Debugf("ModifyVolumeAccessGroupLunAssignments: ", response)
 	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
+	return err
 }
 
 func (c *Client) ModifyVolumePair(request sftypes.ModifyVolumePairRequest) error {
@@ -2985,27 +1876,6 @@ func (c *Client) ModifyVolumePair(request sftypes.ModifyVolumePairRequest) error
 	return err
 }
 
-func (c *Client) ModifyVolumes(request sftypes.ModifyVolumesRequest) (*sftypes.ModifyVolumesResult, error) {
-	response, err := c.SendRequest("ModifyVolumes", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ModifyVolumesResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
 func (c *Client) PurgeDeletedVolume(request sftypes.PurgeDeletedVolumeRequest) error {
 	response, err := c.SendRequest("PurgeDeletedVolume", request)
 	if err != nil {
@@ -3014,18 +1884,6 @@ func (c *Client) PurgeDeletedVolume(request sftypes.PurgeDeletedVolumeRequest) e
 	}
 	if response != nil {
 		log.Debugf("PurgeDeletedVolume: ", response)
-	}
-	return err
-}
-
-func (c *Client) PurgeDeletedVolumes(request sftypes.PurgeDeletedVolumesRequest) error {
-	response, err := c.SendRequest("PurgeDeletedVolumes", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return err
-	}
-	if response != nil {
-		log.Debugf("PurgeDeletedVolumes: ", response)
 	}
 	return err
 }
@@ -3099,25 +1957,16 @@ func (c *Client) RemoveDrives(request sftypes.RemoveDrivesRequest) (*sftypes.Asy
 
 }
 
-func (c *Client) RemoveInitiatorsFromVolumeAccessGroup(request sftypes.RemoveInitiatorsFromVolumeAccessGroupRequest) (*sftypes.ModifyVolumeAccessGroupResult, error) {
+func (c *Client) RemoveInitiatorsFromVolumeAccessGroup(request sftypes.RemoveInitiatorsFromVolumeAccessGroupRequest) error {
 	response, err := c.SendRequest("RemoveInitiatorsFromVolumeAccessGroup", request)
 	if err != nil {
 		log.Errorf("Err: %v", err)
-		return nil, err
+		return err
 	}
-	var result sftypes.ModifyVolumeAccessGroupResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
+	if response != nil {
+		log.Debugf("RemoveInitiatorsFromVolumeAccessGroup: ", response)
 	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
+	return err
 }
 
 func (c *Client) RemoveNodes(request sftypes.RemoveNodesRequest) error {
@@ -3156,25 +2005,16 @@ func (c *Client) RemoveVolumePair(request sftypes.RemoveVolumePairRequest) error
 	return err
 }
 
-func (c *Client) RemoveVolumesFromVolumeAccessGroup(request sftypes.RemoveVolumesFromVolumeAccessGroupRequest) (*sftypes.ModifyVolumeAccessGroupResult, error) {
+func (c *Client) RemoveVolumesFromVolumeAccessGroup(request sftypes.RemoveVolumesFromVolumeAccessGroupRequest) error {
 	response, err := c.SendRequest("RemoveVolumesFromVolumeAccessGroup", request)
 	if err != nil {
 		log.Errorf("Err: %v", err)
-		return nil, err
+		return err
 	}
-	var result sftypes.ModifyVolumeAccessGroupResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
+	if response != nil {
+		log.Debugf("RemoveVolumesFromVolumeAccessGroup: ", response)
 	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
+	return err
 }
 
 func (c *Client) ResetDrives(request sftypes.ResetDrivesRequest) (*sftypes.ResetDrivesResult, error) {
@@ -3184,69 +2024,6 @@ func (c *Client) ResetDrives(request sftypes.ResetDrivesRequest) (*sftypes.Reset
 		return nil, err
 	}
 	var result sftypes.ResetDrivesResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) ResetNode(request sftypes.ResetNodeRequest) (*sftypes.ResetNodeResult, error) {
-	response, err := c.SendRequest("ResetNode", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ResetNodeResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) RestartNetworking(request sftypes.RestartNetworkingRequest) (interface{}, error) {
-	response, err := c.SendRequest("RestartNetworking", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result interface{}
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) RestartServices(request sftypes.RestartServicesRequest) (interface{}, error) {
-	response, err := c.SendRequest("RestartServices", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result interface{}
 	decoder, err := GetDecoder(&result)
 	if err != nil {
 		log.Errorf("Err: %v", err)
@@ -3273,13 +2050,13 @@ func (c *Client) RestoreDeletedVolume(request sftypes.RestoreDeletedVolumeReques
 	return err
 }
 
-func (c *Client) RollbackToGroupSnapshot(request sftypes.RollbackToGroupSnapshotRequest) (*sftypes.RollbackToGroupSnapshotResult, error) {
+func (c *Client) RollbackToGroupSnapshot(request sftypes.RollbackToGroupSnapshotRequest) (*sftypes.CreateGroupSnapshotResult, error) {
 	response, err := c.SendRequest("RollbackToGroupSnapshot", request)
 	if err != nil {
 		log.Errorf("Err: %v", err)
 		return nil, err
 	}
-	var result sftypes.RollbackToGroupSnapshotResult
+	var result sftypes.CreateGroupSnapshotResult
 	decoder, err := GetDecoder(&result)
 	if err != nil {
 		log.Errorf("Err: %v", err)
@@ -3294,13 +2071,13 @@ func (c *Client) RollbackToGroupSnapshot(request sftypes.RollbackToGroupSnapshot
 
 }
 
-func (c *Client) RollbackToSnapshot(request sftypes.RollbackToSnapshotRequest) (*sftypes.RollbackToSnapshotResult, error) {
+func (c *Client) RollbackToSnapshot(request sftypes.RollbackToSnapshotRequest) (*sftypes.CreateSnapshotResult, error) {
 	response, err := c.SendRequest("RollbackToSnapshot", request)
 	if err != nil {
 		log.Errorf("Err: %v", err)
 		return nil, err
 	}
-	var result sftypes.RollbackToSnapshotResult
+	var result sftypes.CreateSnapshotResult
 	decoder, err := GetDecoder(&result)
 	if err != nil {
 		log.Errorf("Err: %v", err)
@@ -3378,39 +2155,6 @@ func (c *Client) SetConfig(request sftypes.SetConfigRequest) (*sftypes.SetConfig
 
 }
 
-func (c *Client) SetDefaultQoS(request sftypes.SetDefaultQoSRequest) (*sftypes.SetDefaultQoSResult, error) {
-	response, err := c.SendRequest("SetDefaultQoS", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.SetDefaultQoSResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
-}
-
-func (c *Client) SetLoginSessionInfo(request sftypes.SetLoginSessionInfoRequest) error {
-	response, err := c.SendRequest("SetLoginSessionInfo", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return err
-	}
-	if response != nil {
-		log.Debugf("SetLoginSessionInfo: ", response)
-	}
-	return err
-}
-
 func (c *Client) SetNetworkConfig(request sftypes.SetNetworkConfigRequest) (*sftypes.SetNetworkConfigResult, error) {
 	response, err := c.SendRequest("SetNetworkConfig", request)
 	if err != nil {
@@ -3430,30 +2174,6 @@ func (c *Client) SetNetworkConfig(request sftypes.SetNetworkConfigRequest) (*sft
 	}
 	return &result, nil
 
-}
-
-func (c *Client) SetNtpInfo(request sftypes.SetNtpInfoRequest) error {
-	response, err := c.SendRequest("SetNtpInfo", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return err
-	}
-	if response != nil {
-		log.Debugf("SetNtpInfo: ", response)
-	}
-	return err
-}
-
-func (c *Client) SetRemoteLoggingHosts(request sftypes.SetRemoteLoggingHostsRequest) error {
-	response, err := c.SendRequest("SetRemoteLoggingHosts", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return err
-	}
-	if response != nil {
-		log.Debugf("SetRemoteLoggingHosts: ", response)
-	}
-	return err
 }
 
 func (c *Client) SetSnmpACL(request sftypes.SetSnmpACLRequest) error {
@@ -3490,27 +2210,6 @@ func (c *Client) SetSnmpTrapInfo(request sftypes.SetSnmpTrapInfoRequest) error {
 		log.Debugf("SetSnmpTrapInfo: ", response)
 	}
 	return err
-}
-
-func (c *Client) Shutdown(request sftypes.ShutdownRequest) (*sftypes.ShutdownResult, error) {
-	response, err := c.SendRequest("Shutdown", request)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	var result sftypes.ShutdownResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-		return nil, err
-	}
-	return &result, nil
-
 }
 
 func (c *Client) SnmpSendTestTraps() (*sftypes.SnmpSendTestTrapsResult, error) {

@@ -46,13 +46,34 @@ func (c *Client) CreateScheduleAdaptor(request sftypes.CreateScheduleRequest) (s
 }
 
 func (c *Client) GetDriveStatsAdaptor(request sftypes.GetDriveStatsRequest) (sftypes.GetDriveStatsResult, error) {
-	log.Fatal("Not implemented")
-	return sftypes.GetDriveStatsResult{}, nil
+	response, err := c.SendRequest("GetDriveStats", request)
+	var result sftypes.GetDriveStatsResult
+	decoder, err := GetDecoder(&result)
+	if err != nil {
+		log.Errorf("Err: %v", err)
+	}
+	err = decoder.Decode(response["result"])
+	if err != nil {
+		log.Errorf("Err: %v", err)
+	}
+
+	return result, nil
 }
 
 func (c *Client) GetNodeStatsAdaptor(request sftypes.GetNodeStatsRequest) (sftypes.GetNodeStatsResult, error) {
-	log.Fatal("Not implemented")
-	return sftypes.GetNodeStatsResult{}, nil
+	response, err := c.SendRequest("GetDriveStats", request)
+	var result sftypes.GetNodeStatsResult
+	decoder, err := GetDecoder(&result)
+	if err != nil {
+		log.Errorf("Err: %v", err)
+	}
+	err = decoder.Decode(response["result"])
+	if err != nil {
+		log.Errorf("Err: %v", err)
+	}
+	result.NodeStats.NodeID = request.NodeID
+
+	return result, nil
 }
 
 func (c *Client) GetScheduleAdaptor(request sftypes.GetScheduleRequest) (sftypes.GetScheduleResult, error) {
@@ -60,22 +81,17 @@ func (c *Client) GetScheduleAdaptor(request sftypes.GetScheduleRequest) (sftypes
 	return sftypes.GetScheduleResult{}, nil
 }
 
-func (c *Client) InvokeSFApiAdaptor(request sftypes.InvokeSFApiRequest) (interface{}, error) {
-	log.Fatal("Not implemented")
-	return nil, nil
-}
-
 func (c *Client) ListSchedulesAdaptor() (sftypes.ListSchedulesResult, error) {
 	log.Fatal("Not implemented")
 	return sftypes.ListSchedulesResult{}, nil
 }
 
-func (c *Client) ModifyScheduleAdaptor(request sftypes.ModifyScheduleRequest) (sftypes.ModifyScheduleResult, error) {
+func (c *Client) ModifyScheduleAdaptor(request sftypes.ModifyScheduleRequest) error {
 	log.Fatal("Not implemented")
-	return sftypes.ModifyScheduleResult{}, nil
+	return nil
 }
 
-func (c *Client) ModifyAccountAdaptor(request sftypes.ModifyAccountRequest) (sftypes.ModifyAccountResult, error) {
+func (c *Client) ModifyAccountAdaptor(request sftypes.ModifyAccountRequest) error {
 	params := map[string]interface{}{
 		"accountID": request.AccountID}
 
@@ -102,14 +118,8 @@ func (c *Client) ModifyAccountAdaptor(request sftypes.ModifyAccountRequest) (sft
 	if err != nil {
 		log.Errorf("Err: %v", err)
 	}
-	var result sftypes.ModifyAccountResult
-	decoder, err := GetDecoder(&result)
-	if err != nil {
-		log.Errorf("Err: %v", err)
+	if response == nil {
+
 	}
-	err = decoder.Decode(response["result"])
-	if err != nil {
-		log.Errorf("Err: %v", err)
-	}
-	return result, nil
+	return nil
 }
