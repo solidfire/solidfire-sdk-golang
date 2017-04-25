@@ -5,8 +5,8 @@ type Account struct {
 	Username        string      `json:"username"`
 	Status          string      `json:"status"`
 	Volumes         []int64     `json:"volumes"`
-	InitiatorSecret CHAPSecret  `json:"initiatorSecret,omitempty"`
-	TargetSecret    CHAPSecret  `json:"targetSecret,omitempty"`
+	InitiatorSecret string      `json:"initiatorSecret,omitempty"`
+	TargetSecret    string      `json:"targetSecret,omitempty"`
 	Attributes      interface{} `json:"attributes,omitempty"`
 }
 

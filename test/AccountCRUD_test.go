@@ -41,7 +41,7 @@ func Test_Account_Get(t *testing.T) {
 	assert.Nil(t, err)
 	assert.True(t, result.Account.AccountID == accountID)
 	assert.True(t, result.Account.Username == accountUsername)
-	assert.NotNil(t, result.Account.InitiatorSecret.Secret)
+	assert.NotNil(t, result.Account.InitiatorSecret)
 }
 
 func Test_Account_Modify(t *testing.T) {
