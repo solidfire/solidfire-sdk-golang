@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	log "github.com/Sirupsen/logrus"
+	//"github.com/fatih/structs"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -27,6 +28,16 @@ type Credentials struct {
 	Username string
 	Password string
 }
+
+type ReqErr struct {
+	code int
+	name string
+	msg  string
+}
+
+func (e *ReqErr) Error() string { return e.msg }
+func (e *ReqErr) Code() int     { return e.code }
+func (e *ReqErr) Name() string  { return e.name }
 
 type APIError struct {
 	Id    int `json:"id"`
@@ -52,14 +63,14 @@ func init() {
 func Create(target string, username string, password string, version string, port int, timeoutSecs int) (c *Client, err error) {
 	client, err := NewFromOpts(target, username, password, ver, port, timeoutSecs)
 	if err != nil {
-		log.Errorf("Err: %v", err)
+		log.Errorf("failed to intialize SolidFire Endpoint: %v", err)
 		return nil, err
 	}
 
 	// set to current version
 	getApiResult, err := client.GetAPI()
 	if err != nil {
-		log.Errorf("Error retrieving Cluster version: %v", err)
+		log.Errorf("failed to retrieve Cluster version: %v", err)
 		return nil, err
 	}
 	client.Version = strconv.FormatFloat(getApiResult.CurrentVersion, 'f', 1, 64)
@@ -67,14 +78,14 @@ func Create(target string, username string, password string, version string, por
 	if client.Port == 443 {
 		getClusterInfoResult, err := client.GetClusterInfo()
 		if err != nil {
-			log.Errorf("Error retrieving Cluster name: %v", err)
+			log.Errorf("failed to retrieve Cluster name: %v", err)
 			return nil, err
 		}
 		client.Name = getClusterInfoResult.ClusterInfo.Name
 	} else if client.Port == 442 {
 		getConfigResult, err := client.GetConfig()
 		if err != nil {
-			log.Errorf("Error retrieving Node name: %v", err)
+			log.Errorf("failed to retrieve Node name: %v", err)
 			return nil, err
 		}
 		client.Name = getConfigResult.Config.Cluster.Name
@@ -93,14 +104,14 @@ func NewFromOpts(target string, username string, password string, version string
 
 func New() (c *Client, err error) {
 	if endpoint == "" {
-		log.Error("Target is not set, unable to issue requests")
+		log.Error("endpoint is not set, unable to issue requests")
 		err = errors.New("Unable to issue json-rpc requests without specifying Target")
 		return nil, err
 	}
 
 	if creds.Username == "" || creds.Password == "" {
-		log.Error("Credentials are not set, unable to issue requests")
-		err = errors.New("Unable to issue json-rpc requests without specifying Credentials")
+		log.Error("endpoint credentials are not set, unable to issue requests")
+		err = errors.New("unable to issue json-rpc requests without specifying Credentials")
 		return nil, err
 	}
 
@@ -151,7 +162,7 @@ func (c *Client) SendRequest(method string, params interface{}) (response map[st
 	log.Debugf("Request: %+v", string(data))
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Errorf("Error encountered posting request: %v", err)
+		log.Errorf("failed posting request: %v", err)
 		return nil, err
 	}
 
@@ -160,7 +171,8 @@ func (c *Client) SendRequest(method string, params interface{}) (response map[st
 	body, err := ioutil.ReadAll(resp.Body)
 	log.Debugf("Response: %+v", string(body))
 	if err != nil {
-		log.Errorf("Error reading response body: %v", err)
+		log.Errorf("failed to parse response body: %v", err)
+		log.Debugf("response body:\n %+v", body)
 		return nil, err
 	}
 
@@ -169,7 +181,8 @@ func (c *Client) SendRequest(method string, params interface{}) (response map[st
 	var result map[string]interface{}
 	err = json.NewDecoder(r).Decode(&result)
 	if err != nil {
-		log.Errorf("Error decoding response into map: %v", err)
+		log.Errorf("json decode of response failed: %v", err)
+		log.Debugf("response body:\n %+v", body)
 		return nil, err
 	}
 
@@ -177,8 +190,7 @@ func (c *Client) SendRequest(method string, params interface{}) (response map[st
 	errresp := APIError{}
 	json.Unmarshal([]byte(body), &errresp)
 	if errresp.Error.Code != 0 {
-		err = errors.New("Received error response from API request: " + *&errresp.Error.Message)
-		return nil, err
+		return nil, &ReqErr{msg: "SolidFire responded with an error", code: errresp.Error.Code, name: errresp.Error.Name}
 	}
 
 	// return successful response
