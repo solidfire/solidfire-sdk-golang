@@ -1,10 +1,11 @@
 package test
 
 import (
+	"testing"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/solidfire/solidfire-sdk-golang/sfapi"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func init() {
@@ -57,7 +58,7 @@ func TestSfApi_SendRequest_ListTests(t *testing.T) {
 	decoder, err := sfapi.GetDecoder(&tests)
 	err = decoder.Decode(result.Tests)
 	if err != nil {
-		log.Fatal("Err: %v", err)
+		log.Error("Err: %v", err)
 	}
 	assert.True(t, len(tests) > 0)
 }

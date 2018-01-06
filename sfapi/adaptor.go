@@ -1,6 +1,8 @@
 package sfapi
 
 import (
+	"errors"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/solidfire/solidfire-sdk-golang/sftypes"
 )
@@ -41,38 +43,38 @@ func (c *Client) AddAccountAdaptor(request sftypes.AddAccountRequest) (sftypes.A
 }
 
 func (c *Client) CreateScheduleAdaptor(request sftypes.CreateScheduleRequest) (sftypes.CreateScheduleResult, error) {
-	log.Fatal("Not implemented")
-	return sftypes.CreateScheduleResult{}, nil
+	log.Error("Not implemented")
+	return sftypes.CreateScheduleResult{}, errors.New("function CreateScheduleAdaptor is Not Implemented")
 }
 
 func (c *Client) GetDriveStatsAdaptor(request sftypes.GetDriveStatsRequest) (sftypes.GetDriveStatsResult, error) {
-	log.Fatal("Not implemented")
-	return sftypes.GetDriveStatsResult{}, nil
+	log.Error("Not implemented")
+	return sftypes.GetDriveStatsResult{}, errors.New("function GetDriveStatsAdaptor is Not Implemented")
 }
 
 func (c *Client) GetNodeStatsAdaptor(request sftypes.GetNodeStatsRequest) (sftypes.GetNodeStatsResult, error) {
-	log.Fatal("Not implemented")
-	return sftypes.GetNodeStatsResult{}, nil
+	log.Error("Not implemented")
+	return sftypes.GetNodeStatsResult{}, errors.New("function GetNodeStatsAdaptor is Not Implemented")
 }
 
 func (c *Client) GetScheduleAdaptor(request sftypes.GetScheduleRequest) (sftypes.GetScheduleResult, error) {
-	log.Fatal("Not implemented")
-	return sftypes.GetScheduleResult{}, nil
+	log.Error("Not implemented")
+	return sftypes.GetScheduleResult{}, errors.New("function GetScheduleAdaptor is Not Implemented")
 }
 
 func (c *Client) InvokeSFApiAdaptor(request sftypes.InvokeSFApiRequest) (interface{}, error) {
-	log.Fatal("Not implemented")
-	return nil, nil
+	log.Error("Not implemented")
+	return nil, errors.New("function InvokeSFApiAdaptor is Not Implemented")
 }
 
 func (c *Client) ListSchedulesAdaptor() (sftypes.ListSchedulesResult, error) {
-	log.Fatal("Not implemented")
-	return sftypes.ListSchedulesResult{}, nil
+	log.Error("Not implemented")
+	return sftypes.ListSchedulesResult{}, errors.New("function ListSchedulesAdaptor is Not Implemented")
 }
 
 func (c *Client) ModifyScheduleAdaptor(request sftypes.ModifyScheduleRequest) (sftypes.ModifyScheduleResult, error) {
-	log.Fatal("Not implemented")
-	return sftypes.ModifyScheduleResult{}, nil
+	log.Error("Not implemented")
+	return sftypes.ModifyScheduleResult{}, errors.New("function GetScheduleAdaptor is Not Implemented")
 }
 
 func (c *Client) ModifyAccountAdaptor(request sftypes.ModifyAccountRequest) (sftypes.ModifyAccountResult, error) {
